@@ -10,8 +10,8 @@ class Message with _$Message {
   factory Message({
     required String author,
     required String content,
-    required String authorImageUrl,
-    required int timestamp,
+    required String timestamp,
+    String? authorImageUrl,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>

@@ -1,23 +1,31 @@
+import 'package:jet_chat_clone/core/result.dart';
+import 'package:jet_chat_clone/data/data_source/message_data_source.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/domain/repository/message_repository.dart';
 
 class MessageRepositoryImpl implements MessageRepository {
+  MessageDataSource dataSource;
+
+  MessageRepositoryImpl(this.dataSource);
+
   @override
-  Future<List<Message>> loadHistoryMessage(Message message) {
-    // TODO: implement loadHistoryMessage
-    throw UnimplementedError();
+  Future<Result<List<Message>>> loadHistoryMessage() async {
+    List<Message> results = await dataSource.loadHistoryMessage();
+
+    if (results.isNotEmpty) {
+      return Result.success(results);
+    } else {
+      return const Result.error('이전 데이터가 없습니다.');
+    }
   }
 
   @override
-  Future<Message> receiveMessage() {
-    // TODO: implement receiveMessage
-    throw UnimplementedError();
+  Future<Message> receiveMessage() async {
+    return await dataSource.receiveMessage();
   }
 
   @override
-  Future<void> sendMessage(Message message) {
-    // TODO: implement sendMessage
-    throw UnimplementedError();
+  Future<void> sendMessage(Message message) async {
+    await dataSource.sendMessage(message);
   }
-
 }
