@@ -11,6 +11,7 @@ class ChatState with _$ChatState {
   factory ChatState({
     @Default([]) List<Message> messages,
     @Default(false) bool isScrolled,
+    @Default(false) bool isKeyboardSelected,
   }) = _ChatState;
 
   factory ChatState.fromJson(Map<String, dynamic> json) =>

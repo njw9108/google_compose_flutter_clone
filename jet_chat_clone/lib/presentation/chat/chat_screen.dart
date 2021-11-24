@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_state.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_ui_event.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_view_model.dart';
@@ -18,6 +19,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _scrollController = ScrollController();
+
+  final TextEditingController textEditingController = TextEditingController();
+
   StreamSubscription? _streamSubscription;
 
   @override
@@ -30,16 +34,23 @@ class _ChatScreenState extends State<ChatScreen> {
       // 구독
       _streamSubscription = viewModel.eventStream.listen((event) {
         event.when(
-            loadHistory: () {},
-            jumpToBottom: () {
-              _scrollController.animateTo(
-                _scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.fastOutSlowIn,
-              );
-            },
-            scrollMoved: () {},
-            jumpToBottomEnd: () {});
+          loadHistory: () {},
+          jumpToBottom: () {
+            print(
+                'jump to bottom, ${_scrollController.position.maxScrollExtent} ');
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.fastOutSlowIn,
+            );
+          },
+          scrollMoved: () {},
+          jumpToBottomEnd: () {},
+          sendMessage: (Message message) {
+            textEditingController.clear();
+            FocusScope.of(context).unfocus();
+          },
+        );
       });
     });
   }
@@ -48,6 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void dispose() {
     _streamSubscription?.cancel();
     _scrollController.dispose();
+    textEditingController.dispose();
     super.dispose();
   }
 
@@ -67,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Column(
       children: [
         Flexible(
-          flex: 4,
+          flex: (state.isKeyboardSelected == false) ? 4 : 2,
           fit: FlexFit.tight,
           child: Stack(
             children: [
@@ -119,10 +131,12 @@ class _ChatScreenState extends State<ChatScreen> {
             ],
           ),
         ),
-        const Flexible(
+        Flexible(
           flex: 1,
           fit: FlexFit.tight,
-          child: TextFieldItem(),
+          child: TextFieldItem(
+            textEditingController: textEditingController,
+          ),
         ),
       ],
     );
