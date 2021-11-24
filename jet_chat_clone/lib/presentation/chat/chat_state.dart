@@ -10,6 +10,7 @@ part 'chat_state.g.dart';
 class ChatState with _$ChatState {
   factory ChatState({
     @Default([]) List<Message> messages,
+    @Default(false) bool isScrolled,
   }) = _ChatState;
 
   factory ChatState.fromJson(Map<String, dynamic> json) =>
