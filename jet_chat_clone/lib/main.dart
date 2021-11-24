@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jet_chat_clone/di/provider_setup.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_screen.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  runApp(
+    MultiProvider(
+      providers: await getProviders(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

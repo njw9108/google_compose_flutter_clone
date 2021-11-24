@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:jet_chat_clone/presentation/chat/chat_view_model.dart';
+import 'package:jet_chat_clone/presentation/chat/components/message_item.dart';
+import 'package:jet_chat_clone/presentation/chat/components/text_field_item.dart';
+import 'package:provider/provider.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
   @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<ChatViewModel>();
+    final state = viewModel.state;
+
     return Scaffold(
       drawer: Drawer(
         child: Container(
@@ -119,7 +139,7 @@ class ChatScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        actions: [
+        actions: const [
           Icon(Icons.search),
           SizedBox(
             width: 30,
@@ -149,15 +169,21 @@ class ChatScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView(
+      body: Column(
         children: [
-          Container(
-            color: Colors.blueAccent,
-            child: const Text('test'),
+          Flexible(
+            flex: 4,
+            fit: FlexFit.tight,
+            child: ListView(
+              children: state.messages
+                  .map((message) => MessageItem(message: message))
+                  .toList(),
+            ),
           ),
-          Container(
-            color: Colors.grey,
-            child: const Text('test2'),
+          const Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: TextFieldItem(),
           ),
         ],
       ),
