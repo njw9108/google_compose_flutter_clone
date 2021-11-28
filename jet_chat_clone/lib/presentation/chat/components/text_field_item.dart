@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_ui_event.dart';
+import 'package:jet_chat_clone/presentation/chat/components/ensure_visible_when_focused.dart';
+import 'package:jet_chat_clone/ui/color.dart';
+import 'package:jet_chat_clone/ui/icon_button_data.dart';
 import 'package:provider/provider.dart';
 
 import '../chat_view_model.dart';
@@ -19,17 +22,32 @@ class TextFieldItem extends StatefulWidget {
 }
 
 class _TextFieldItemState extends State<TextFieldItem> {
-  final emojiList = const [
-    Icon(Icons.emoji_emotions_outlined),
-    Icon(Icons.alternate_email_outlined),
-    Icon(Icons.image_outlined),
-    Icon(Icons.add_location_outlined),
-    Icon(Icons.video_call_rounded),
-  ];
+  final FocusNode _focusNode = FocusNode();
+  int listenerId = 0;
 
   @override
   void initState() {
     super.initState();
+    Future.microtask(() {
+      _focusNode.addListener(_focusNodeListener);
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_focusNodeListener);
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  Future<void> _focusNodeListener() async {
+    if (_focusNode.hasFocus) {
+      context.read<ChatViewModel>().keyboardSelectChange(true);
+      print('TextField got the focus');
+    } else {
+      context.read<ChatViewModel>().keyboardSelectChange(false);
+      print('TextField lost the focus');
+    }
   }
 
   @override
@@ -37,24 +55,34 @@ class _TextFieldItemState extends State<TextFieldItem> {
     final viewModel = context.watch<ChatViewModel>();
 
     return Container(
-      color: const Color(0xffdbe0f6),
+      color: brightBlue,
       child: Column(
         children: [
           Flexible(
             flex: 1,
-            child: TextField(
-              onTap: () {
-
+            child: EnsureVisibleWhenFocused(
+              onFocused: () {
+                print('EnsureVisibleWhenFocused true');
+                viewModel.keyboardSelectChange(true);
               },
-              onChanged: (value) {
-                setState(() {});
+              onUnFocused: () {
+                print('EnsureVisibleWhenFocused false');
+                viewModel.keyboardSelectChange(false);
               },
-              controller: widget.textEditingController,
-              style: const TextStyle(fontSize: 19),
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                hintText: 'Message #composers',
-                border: InputBorder.none,
+              focusNode: _focusNode,
+              child: TextField(
+                focusNode: _focusNode,
+                onTap: () {},
+                onChanged: (value) {
+                  setState(() {});
+                },
+                controller: widget.textEditingController,
+                style: const TextStyle(fontSize: 19),
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                  hintText: 'Message #composers',
+                  border: InputBorder.none,
+                ),
               ),
             ),
           ),
@@ -64,31 +92,17 @@ class _TextFieldItemState extends State<TextFieldItem> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  color: Colors.indigo,
-                  onPressed: () {},
-                  icon: const Icon(Icons.emoji_emotions_outlined),
-                ),
-                IconButton(
-                  color: Colors.indigo,
-                  onPressed: () {},
-                  icon: const Icon(Icons.alternate_email_outlined),
-                ),
-                IconButton(
-                  color: Colors.indigo,
-                  onPressed: () {},
-                  icon: const Icon(Icons.image_outlined),
-                ),
-                IconButton(
-                  color: Colors.indigo,
-                  onPressed: () {},
-                  icon: const Icon(Icons.add_location_outlined),
-                ),
-                IconButton(
-                  color: Colors.indigo,
-                  onPressed: () {},
-                  icon: const Icon(Icons.video_call_rounded),
-                ),
+                ...emojiList
+                    .map(
+                      (e) => IconButton(
+                        icon: e.icon,
+                        color: Colors.indigo,
+                        onPressed: () {
+                          e.onTap(viewModel);
+                        },
+                      ),
+                    )
+                    .toList(),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: (widget.textEditingController.text.isNotEmpty)
@@ -106,6 +120,8 @@ class _TextFieldItemState extends State<TextFieldItem> {
                             author: 'me',
                             content: content,
                             timestamp: DateFormat.jm().format(timestamp))));
+
+                        FocusScope.of(context).unfocus();
                       }
                     },
                     child: const Text('Send')),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
+import 'package:jet_chat_clone/ui/color.dart' as color;
 
 class MessageItem extends StatelessWidget {
   final Message message;
@@ -64,8 +65,8 @@ class MessageItem extends StatelessWidget {
                       bottomRight: Radius.circular(20),
                     ),
                     color: (message.author == 'me')
-                        ? const Color.fromRGBO(0, 0, 255, 70)
-                        : const Color.fromRGBO(70, 70, 70, 180),
+                        ? color.deepBlue
+                        : color.brightGrey,
                   ),
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerLeft,

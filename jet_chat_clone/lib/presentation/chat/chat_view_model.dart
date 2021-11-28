@@ -14,17 +14,22 @@ class ChatViewModel with ChangeNotifier {
   ChatState get state => _state;
 
   ChatViewModel(this._useCase) {
-    _loadMessages();
+    loadDatas();
   }
 
-
+  Future<void> loadDatas() async {
+    await _loadMessages();
+    await _loadUserProfiles();
+    notifyListeners();
+    _eventController.add(const ChatUiEvent.jumpToBottom());
+  }
 
   void onEvent(ChatUiEvent event) {
     event.when(
       loadHistory: _loadMessages,
       jumpToBottom: _jumpToBottom,
-      scrollMoved: _scrollMoved,
-      jumpToBottomEnd: _jumpToBottomEnd,
+      showButton: _showButton,
+      hideButton: _hideButton,
       sendMessage: _sendMessage,
     );
   }
@@ -34,31 +39,35 @@ class ChatViewModel with ChangeNotifier {
 
   Stream<ChatUiEvent> get eventStream => _eventController.stream;
 
-  void _scrollMoved() {
+  void _showButton() {
     _state = state.copyWith(
-      isScrolled: true,
+      showButton: true,
     );
     notifyListeners();
   }
 
-  void keyboardSelectChange(bool select) {
-    print('keyboardSelectChange');
+  void _hideButton() {
     _state = state.copyWith(
-      isKeyboardSelected: select,
+      showButton: false,
     );
     notifyListeners();
+  }
+
+  void keyboardSelectChange(bool selected) {
+    _state = state.copyWith(
+      isKeyboardSelected: selected,
+    );
+
+    print('keyboard select change');
+    notifyListeners();
+    _eventController.add(const ChatUiEvent.jumpToBottom());
   }
 
   void _jumpToBottom() {
     _eventController.add(const ChatUiEvent.jumpToBottom());
   }
 
-  void _jumpToBottomEnd() {
-    _state = state.copyWith(
-      isScrolled: false,
-    );
-    notifyListeners();
-  }
+
 
   Future<void> _loadMessages() async {
     final results = await _useCase.loadHistory(NoParams());
@@ -67,15 +76,27 @@ class ChatViewModel with ChangeNotifier {
           _state = state.copyWith(
             messages: results,
           );
-          notifyListeners();
-          _jumpToBottom();
+          print('load message');
+        },
+        error: (message) {});
+  }
+
+  Future<void> _loadUserProfiles() async {
+    final results = await _useCase.loadUserProfiles(NoParams());
+    results.when(
+        success: (results) {
+          _state = state.copyWith(
+            users: results,
+          );
+          print('load user profile');
         },
         error: (message) {});
   }
 
   Future<void> _sendMessage(Message message) async {
     await _useCase.sendMessage(message);
-    _loadMessages();
+    await _loadMessages();
     _eventController.add(ChatUiEvent.sendMessage(message));
+    _eventController.add(const ChatUiEvent.jumpToBottom());
   }
 }

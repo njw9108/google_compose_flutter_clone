@@ -6,8 +6,12 @@ part 'chat_ui_event.freezed.dart';
 @freezed
 abstract class ChatUiEvent with _$ChatUiEvent {
   const factory ChatUiEvent.loadHistory() = LoadHistory;
+
   const factory ChatUiEvent.jumpToBottom() = JumpToBottom;
-  const factory ChatUiEvent.scrollMoved() = ScrollMoved;
-  const factory ChatUiEvent.jumpToBottomEnd() = JumpToBottomEnd;
+
+  const factory ChatUiEvent.showButton() = ShowButton;
+
+  const factory ChatUiEvent.hideButton() = HideButton;
+
   const factory ChatUiEvent.sendMessage(Message message) = SendMessage;
 }

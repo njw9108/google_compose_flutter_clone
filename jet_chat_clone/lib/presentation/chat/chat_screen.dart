@@ -6,8 +6,11 @@ import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_state.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_ui_event.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_view_model.dart';
+import 'package:jet_chat_clone/presentation/chat/components/drawer_profile_list.dart';
 import 'package:jet_chat_clone/presentation/chat/components/message_item.dart';
 import 'package:jet_chat_clone/presentation/chat/components/text_field_item.dart';
+import 'package:jet_chat_clone/presentation/edit_profile/edit_profile_screen.dart';
+import 'package:jet_chat_clone/ui/color.dart' as color;
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -19,7 +22,6 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _scrollController = ScrollController();
-
   final TextEditingController textEditingController = TextEditingController();
 
   StreamSubscription? _streamSubscription;
@@ -28,7 +30,9 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
 
+    print('init state');
     Future.microtask(() {
+      print('init state micro task');
       final viewModel = context.read<ChatViewModel>();
 
       // 구독
@@ -36,16 +40,20 @@ class _ChatScreenState extends State<ChatScreen> {
         event.when(
           loadHistory: () {},
           jumpToBottom: () {
-            print(
-                'jump to bottom, ${_scrollController.position.maxScrollExtent} ');
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.fastOutSlowIn,
+            WidgetsBinding.instance!.addPostFrameCallback(
+              (_) {
+                print('widget binding');
+                //_scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+                _scrollController.animateTo(
+                  _scrollController.position.maxScrollExtent,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.fastOutSlowIn,
+                );
+              },
             );
           },
-          scrollMoved: () {},
-          jumpToBottomEnd: () {},
+          showButton: () {},
+          hideButton: () {},
           sendMessage: (Message message) {
             textEditingController.clear();
             FocusScope.of(context).unfocus();
@@ -53,6 +61,15 @@ class _ChatScreenState extends State<ChatScreen> {
         );
       });
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant ChatScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    print('did update widget');
+
+    super.didUpdateWidget(oldWidget);
+    //_scrollController.jumpTo(_scrollController.position.maxScrollExtent);
   }
 
   @override
@@ -65,13 +82,24 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     final viewModel = context.watch<ChatViewModel>();
     final state = viewModel.state;
 
-    return Scaffold(
-      drawer: _buildDrawer(),
-      appBar: _buildAppBar(),
-      body: _buildBody(state, viewModel),
+    return WillPopScope(
+      onWillPop: () {
+        if (state.isKeyboardSelected == true) {
+          print('WillPopScope');
+          viewModel.keyboardSelectChange(false);
+          return Future(() => false);
+        }
+        return Future(() => true);
+      },
+      child: Scaffold(
+        drawer: _buildDrawer(state),
+        appBar: _buildAppBar(),
+        body: _buildBody(state, viewModel),
+      ),
     );
   }
 
@@ -84,19 +112,23 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Stack(
             children: [
               NotificationListener(
-                child: ListView(
-                  controller: _scrollController,
-                  children: state.messages
-                      .map((message) => MessageItem(message: message))
-                      .toList(),
-                ),
+                child: _buildListView(state),
                 onNotification: (event) {
-                  if (event is ScrollNotification) {
+                  if (event is UserScrollNotification) {
                     if (_scrollController.offset !=
-                        _scrollController.position.maxScrollExtent) {
-                      viewModel.onEvent(const ChatUiEvent.scrollMoved());
-                    } else {
-                      viewModel.onEvent(const ChatUiEvent.jumpToBottomEnd());
+                            _scrollController.position.maxScrollExtent &&
+                        state.showButton == false) {
+                      //print('${_scrollController.offset}');
+                      print('show button');
+                      viewModel.onEvent(const ChatUiEvent.showButton());
+                    }
+                  }
+                  if (event is ScrollEndNotification) {
+                    if (_scrollController.offset ==
+                            _scrollController.position.maxScrollExtent &&
+                        state.showButton == true) {
+                      print('hide button');
+                      viewModel.onEvent(const ChatUiEvent.hideButton());
                     }
                   }
                   return false;
@@ -107,10 +139,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Visibility(
-                    visible: state.isScrolled == true ? true : false,
+                    visible: state.showButton == true ? true : false,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: const Color(0xffdbe0f6),
+                        primary: color.brightBlue,
                         onPrimary: const Color.fromRGBO(0, 0, 255, 70),
                         textStyle: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
@@ -139,6 +171,15 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildListView(ChatState state) {
+    return ListView(
+      controller: _scrollController,
+      children: state.messages
+          .map((message) => MessageItem(message: message))
+          .toList(),
     );
   }
 
@@ -178,10 +219,10 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildDrawer() {
+  Widget _buildDrawer(ChatState state) {
     return Drawer(
       child: Container(
-        color: const Color(0xffdbe0f6),
+        color: color.brightBlue,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -206,7 +247,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  color: const Color(0xffaab7f5),
+                  color: color.selectedBlue,
                 ),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -244,46 +285,21 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Text('Recent Profiles'),
             ),
             Column(
-              children: [
-                Row(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://dimg.donga.com/wps/NEWS/IMAGE/2021/01/17/104953245.2.jpg'),
+              children: state.users.map((userProfile) {
+                return DrawerProfileList(
+                  userProfile: userProfile,
+                  onTap: (userProfile) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfileScreen(
+                          userProfile: userProfile,
                         ),
                       ),
-                    ),
-                    Text(
-                      'Ali Conors',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://dimg.donga.com/wps/NEWS/IMAGE/2021/01/17/104953245.2.jpg'),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Ali Conors',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  ],
-                ),
-              ],
+                    );
+                  },
+                );
+              }).toList(),
             ),
           ],
         ),
