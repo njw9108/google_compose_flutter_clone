@@ -14,10 +14,10 @@ class ChatViewModel with ChangeNotifier {
   ChatState get state => _state;
 
   ChatViewModel(this._useCase) {
-    loadDatas();
+    loadData();
   }
 
-  Future<void> loadDatas() async {
+  Future<void> loadData() async {
     await _loadMessages();
     await _loadUserProfiles();
     notifyListeners();

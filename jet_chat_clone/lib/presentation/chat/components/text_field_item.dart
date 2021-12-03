@@ -24,6 +24,7 @@ class TextFieldItem extends StatefulWidget {
 
 class _TextFieldItemState extends State<TextFieldItem> {
   final FocusNode _focusNode = FocusNode();
+  final FocusNode _iconFocusNode = FocusNode();
   int listenerId = 0;
 
   @override
@@ -38,6 +39,7 @@ class _TextFieldItemState extends State<TextFieldItem> {
   void dispose() {
     _focusNode.removeListener(_focusNodeListener);
     _focusNode.dispose();
+    _iconFocusNode.dispose();
     super.dispose();
   }
 
@@ -95,13 +97,14 @@ class _TextFieldItemState extends State<TextFieldItem> {
                         icon: e.icon,
                         color: Colors.indigo,
                         onPressed: () {
-                          FocusScope.of(context).unfocus();
                           e.onTap(viewModel);
+                          _iconFocusNode.requestFocus();
                         },
                       ),
                     )
                     .toList(),
                 ElevatedButton(
+                  focusNode: _iconFocusNode,
                     style: ElevatedButton.styleFrom(
                       primary: (widget.textEditingController.text.isNotEmpty)
                           ? const Color.fromRGBO(0, 0, 255, 70)
