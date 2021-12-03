@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_ui_event.dart';
+import 'package:jet_chat_clone/presentation/chat/components/emoji_keyboard.dart';
 import 'package:jet_chat_clone/presentation/chat/components/ensure_visible_when_focused.dart';
 import 'package:jet_chat_clone/ui/color.dart';
 import 'package:jet_chat_clone/ui/icon_button_data.dart';
@@ -88,12 +89,13 @@ class _TextFieldItemState extends State<TextFieldItem> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ...emojiList
+                ...iconList
                     .map(
                       (e) => IconButton(
                         icon: e.icon,
                         color: Colors.indigo,
                         onPressed: () {
+                          FocusScope.of(context).unfocus();
                           e.onTap(viewModel);
                         },
                       ),
@@ -122,6 +124,15 @@ class _TextFieldItemState extends State<TextFieldItem> {
                     },
                     child: const Text('Send')),
               ],
+            ),
+          ),
+          Flexible(
+            flex: (viewModel.state.isEmojiSelected) ? 4 : 1,
+            child: Visibility(
+              visible: viewModel.state.isEmojiSelected,
+              child: EmojiKeyboard(
+                textEditingController: widget.textEditingController,
+              ),
             ),
           ),
         ],

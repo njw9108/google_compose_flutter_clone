@@ -11,14 +11,15 @@ class IconButtonData {
   });
 }
 
-final emojiList = [
+final iconList = [
   IconButtonData(
       icon: const Icon(Icons.emoji_emotions_outlined),
       onTap: (viewModel) {
-        if (viewModel.state.isKeyboardSelected) {
-          viewModel.keyboardSelectChange(false);
+        if (viewModel.state.isEmojiSelected) {
+
+          viewModel.emojiSelectChange(false);
         } else {
-          viewModel.keyboardSelectChange(true);
+          viewModel.emojiSelectChange(true);
         }
       }),
   IconButtonData(

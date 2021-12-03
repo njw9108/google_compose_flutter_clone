@@ -74,6 +74,12 @@ class _ChatScreenState extends State<ChatScreen> {
           viewModel.keyboardSelectChange(false);
           return Future(() => false);
         }
+
+        if (state.isEmojiSelected == true) {
+          viewModel.emojiSelectChange(false);
+          return Future(() => false);
+        }
+
         return Future(() => true);
       },
       child: Scaffold(
@@ -88,7 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Column(
       children: [
         Flexible(
-          flex: (state.isKeyboardSelected == false) ? 4 : 2,
+          flex: _screenRatio(state),
           fit: FlexFit.tight,
           child: Stack(
             children: [
@@ -151,6 +157,20 @@ class _ChatScreenState extends State<ChatScreen> {
       ],
     );
   }
+
+  int _screenRatio(ChatState state) {
+    int ratio = 4;
+
+    if (state.isKeyboardSelected == false && state.isEmojiSelected == false) {
+      ratio = 4;
+    } else if (state.isKeyboardSelected == true && state.isEmojiSelected == false) {
+      ratio = 2;
+    } else if (state.isKeyboardSelected == false && state.isEmojiSelected == true) {
+      ratio = 1;
+    }
+    return ratio;
+  }
+
 
   Widget _buildListView(ChatState state) {
     return ListView(

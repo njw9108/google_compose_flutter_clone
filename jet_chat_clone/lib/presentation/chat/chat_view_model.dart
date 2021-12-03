@@ -53,9 +53,20 @@ class ChatViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void emojiSelectChange(bool selected) {
+    _state = state.copyWith(
+      isEmojiSelected: selected,
+      isKeyboardSelected: false,
+    );
+
+    notifyListeners();
+    _eventController.add(const ChatUiEvent.jumpToBottom());
+  }
+
   void keyboardSelectChange(bool selected) {
     _state = state.copyWith(
       isKeyboardSelected: selected,
+      isEmojiSelected: false,
     );
 
     notifyListeners();
@@ -65,8 +76,6 @@ class ChatViewModel with ChangeNotifier {
   void _jumpToBottom() {
     _eventController.add(const ChatUiEvent.jumpToBottom());
   }
-
-
 
   Future<void> _loadMessages() async {
     final results = await _useCase.loadHistory(NoParams());
@@ -92,7 +101,9 @@ class ChatViewModel with ChangeNotifier {
 
   Future<void> _sendMessage(Message message) async {
     await _useCase.sendMessage(message);
-    await _loadMessages();
+    state.messages.add(message);
+    notifyListeners();
+    //await _loadMessages();
     _eventController.add(ChatUiEvent.sendMessage(message));
     _eventController.add(const ChatUiEvent.jumpToBottom());
   }

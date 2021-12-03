@@ -13,6 +13,7 @@ class ChatState with _$ChatState {
     @Default([]) List<Message> messages,
     @Default(false) bool showButton,
     @Default(false) bool isKeyboardSelected,
+    @Default(false) bool isEmojiSelected,
   }) = _ChatState;
 
   factory ChatState.fromJson(Map<String, dynamic> json) =>
