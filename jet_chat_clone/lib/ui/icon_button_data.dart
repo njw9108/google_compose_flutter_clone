@@ -16,10 +16,8 @@ final emojiList = [
       icon: const Icon(Icons.emoji_emotions_outlined),
       onTap: (viewModel) {
         if (viewModel.state.isKeyboardSelected) {
-          print('IconButtonData false');
           viewModel.keyboardSelectChange(false);
         } else {
-          print('IconButtonData true');
           viewModel.keyboardSelectChange(true);
         }
       }),

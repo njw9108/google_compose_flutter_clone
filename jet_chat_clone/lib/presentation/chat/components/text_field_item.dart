@@ -43,10 +43,8 @@ class _TextFieldItemState extends State<TextFieldItem> {
   Future<void> _focusNodeListener() async {
     if (_focusNode.hasFocus) {
       context.read<ChatViewModel>().keyboardSelectChange(true);
-      print('TextField got the focus');
     } else {
       context.read<ChatViewModel>().keyboardSelectChange(false);
-      print('TextField lost the focus');
     }
   }
 
@@ -62,11 +60,9 @@ class _TextFieldItemState extends State<TextFieldItem> {
             flex: 1,
             child: EnsureVisibleWhenFocused(
               onFocused: () {
-                print('EnsureVisibleWhenFocused true');
                 viewModel.keyboardSelectChange(true);
               },
               onUnFocused: () {
-                print('EnsureVisibleWhenFocused false');
                 viewModel.keyboardSelectChange(false);
               },
               focusNode: _focusNode,

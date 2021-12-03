@@ -47,3 +47,5 @@ app.*.map.json
 
 *.g.dart
 *.freezed.dart
+
+google-services.json

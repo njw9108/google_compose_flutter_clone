@@ -30,9 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
 
-    print('init state');
     Future.microtask(() {
-      print('init state micro task');
       final viewModel = context.read<ChatViewModel>();
 
       // 구독
@@ -42,13 +40,7 @@ class _ChatScreenState extends State<ChatScreen> {
           jumpToBottom: () {
             WidgetsBinding.instance!.addPostFrameCallback(
               (_) {
-                print('widget binding');
-                //_scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-                _scrollController.animateTo(
-                  _scrollController.position.maxScrollExtent,
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.fastOutSlowIn,
-                );
+                _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
               },
             );
           },
@@ -64,15 +56,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant ChatScreen oldWidget) {
-    // TODO: implement didUpdateWidget
-    print('did update widget');
-
-    super.didUpdateWidget(oldWidget);
-    //_scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-  }
-
-  @override
   void dispose() {
     _streamSubscription?.cancel();
     _scrollController.dispose();
@@ -82,14 +65,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     final viewModel = context.watch<ChatViewModel>();
     final state = viewModel.state;
 
     return WillPopScope(
       onWillPop: () {
         if (state.isKeyboardSelected == true) {
-          print('WillPopScope');
           viewModel.keyboardSelectChange(false);
           return Future(() => false);
         }
@@ -118,8 +99,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     if (_scrollController.offset !=
                             _scrollController.position.maxScrollExtent &&
                         state.showButton == false) {
-                      //print('${_scrollController.offset}');
-                      print('show button');
                       viewModel.onEvent(const ChatUiEvent.showButton());
                     }
                   }
@@ -127,7 +106,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     if (_scrollController.offset ==
                             _scrollController.position.maxScrollExtent &&
                         state.showButton == true) {
-                      print('hide button');
                       viewModel.onEvent(const ChatUiEvent.hideButton());
                     }
                   }

@@ -1,11 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/domain/model/user_profile.dart';
 
 class MessageDataSource {
-  Future<List<Message>> loadHistoryMessage() async {
-    await Future.delayed(const Duration(milliseconds: 200));
+  final _messages =
+  FirebaseFirestore.instance.collection('message').withConverter<Message>(
+    fromFirestore: (snapshot, _) => Message.fromJson(snapshot.data()!),
+    toFirestore: (message, _) => message.toJson(),
+  );
 
-    return messages;
+
+  Future<List<Message>> loadHistoryMessage() async {
+    final QuerySnapshot<Message> querySnapshot = await _messages.get();
+    return querySnapshot.docs.map((e) => e.data()).toList();
   }
 
   Future<List<UserProfile>> loadUserProfiles() async {
@@ -15,7 +22,7 @@ class MessageDataSource {
   }
 
   Future<void> sendMessage(Message message) async {
-    await Future.delayed(const Duration(milliseconds: 100));
+    await _messages.add(message);
 
     messages.add(message);
   }

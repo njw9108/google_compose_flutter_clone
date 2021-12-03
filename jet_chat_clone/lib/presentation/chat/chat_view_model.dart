@@ -58,7 +58,6 @@ class ChatViewModel with ChangeNotifier {
       isKeyboardSelected: selected,
     );
 
-    print('keyboard select change');
     notifyListeners();
     _eventController.add(const ChatUiEvent.jumpToBottom());
   }
@@ -76,7 +75,6 @@ class ChatViewModel with ChangeNotifier {
           _state = state.copyWith(
             messages: results,
           );
-          print('load message');
         },
         error: (message) {});
   }
@@ -88,7 +86,6 @@ class ChatViewModel with ChangeNotifier {
           _state = state.copyWith(
             users: results,
           );
-          print('load user profile');
         },
         error: (message) {});
   }

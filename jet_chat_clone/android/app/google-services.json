@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "893070862214",
+    "project_id": "jet-chat-clone",
+    "storage_bucket": "jet-chat-clone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893070862214:android:e4ae32e7bb4fdf1a752e07",
+        "android_client_info": {
+          "package_name": "com.example.storage_firestore_example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893070862214-ij565h8fp9n8raka682tsna3povkjsj7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJFQGE2lb1VSScm_wG-Xf9cv4h1F6EkUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893070862214-ij565h8fp9n8raka682tsna3povkjsj7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893070862214:android:42109573bbe1a65b752e07",
+        "android_client_info": {
+          "package_name": "com.njw9108.jet_chat_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893070862214-99qs4s6337flo4aeq2ktj3grrfr6ikb0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.njw9108.jet_chat_clone",
+            "certificate_hash": "febd925f0d05b7f98753c0822318c5cd13c8e469"
+          }
+        },
+        {
+          "client_id": "893070862214-ij565h8fp9n8raka682tsna3povkjsj7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJFQGE2lb1VSScm_wG-Xf9cv4h1F6EkUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893070862214-ij565h8fp9n8raka682tsna3povkjsj7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

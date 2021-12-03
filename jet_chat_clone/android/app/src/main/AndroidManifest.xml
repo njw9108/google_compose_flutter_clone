@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jet_chat_clone">
+    package="com.njw9108.jet_chat_clone">
    <application
         android:label="jet_chat_clone"
         android:icon="@mipmap/ic_launcher">

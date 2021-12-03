@@ -14,7 +14,9 @@ class MessageRepositoryImpl implements MessageRepository {
     List<Message> results = await dataSource.loadHistoryMessage();
 
     if (results.isNotEmpty) {
-      return Result.success(results);
+      return Result.success(results
+        ..sort(
+            (Message m1, Message m2) => m1.timestamp.compareTo(m2.timestamp)));
     } else {
       return const Result.error('이전 데이터가 없습니다.');
     }
