@@ -18,10 +18,10 @@ class ChatViewModel with ChangeNotifier {
   }
 
   Future<void> loadData() async {
-    await _loadMessages();
-    await _loadUserProfiles();
-    notifyListeners();
-    _eventController.add(const ChatUiEvent.jumpToBottom());
+    // await _loadMessages();
+    // await _loadUserProfiles();
+    // notifyListeners();
+    // _eventController.add(const ChatUiEvent.jumpToBottom());
   }
 
   void onEvent(ChatUiEvent event) {
@@ -78,33 +78,33 @@ class ChatViewModel with ChangeNotifier {
   }
 
   Future<void> _loadMessages() async {
-    final results = await _useCase.loadHistory(NoParams());
-    results.when(
-        success: (results) {
-          _state = state.copyWith(
-            messages: results,
-          );
-        },
-        error: (message) {});
+    // final results = await _useCase.loadHistory(NoParams());
+    // results.when(
+    //     success: (results) {
+    //       _state = state.copyWith(
+    //         messages: results,
+    //       );
+    //     },
+    //     error: (message) {});
   }
 
   Future<void> _loadUserProfiles() async {
-    final results = await _useCase.loadUserProfiles(NoParams());
-    results.when(
-        success: (results) {
-          _state = state.copyWith(
-            users: results,
-          );
-        },
-        error: (message) {});
+    // final results = await _useCase.loadUserProfiles(NoParams());
+    // results.when(
+    //     success: (results) {
+    //       _state = state.copyWith(
+    //         users: results,
+    //       );
+    //     },
+    //     error: (message) {});
   }
 
   Future<void> _sendMessage(Message message) async {
-    await _useCase.sendMessage(message);
-    state.messages.add(message);
-    notifyListeners();
-    //await _loadMessages();
-    _eventController.add(ChatUiEvent.sendMessage(message));
-    _eventController.add(const ChatUiEvent.jumpToBottom());
+    // await _useCase.sendMessage(message);
+    // state.messages.add(message);
+    // notifyListeners();
+    // //await _loadMessages();
+    // _eventController.add(ChatUiEvent.sendMessage(message));
+    // _eventController.add(const ChatUiEvent.jumpToBottom());
   }
 }

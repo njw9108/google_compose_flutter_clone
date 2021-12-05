@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
+import 'package:jet_chat_clone/domain/model/user_profile.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_state.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_ui_event.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_view_model.dart';
@@ -14,7 +15,18 @@ import 'package:jet_chat_clone/ui/color.dart' as color;
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  final String chatRoomTitle;
+  final List<Message>? historyMessages;
+  final List<UserProfile>? users;
+  final int? numOfMembers;
+
+  const ChatScreen(
+      {Key? key,
+      required this.chatRoomTitle,
+      this.historyMessages,
+      this.users,
+      this.numOfMembers})
+      : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -40,7 +52,8 @@ class _ChatScreenState extends State<ChatScreen> {
           jumpToBottom: () {
             WidgetsBinding.instance!.addPostFrameCallback(
               (_) {
-                _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+                _scrollController
+                    .jumpTo(_scrollController.position.maxScrollExtent);
               },
             );
           },
@@ -163,22 +176,35 @@ class _ChatScreenState extends State<ChatScreen> {
 
     if (state.isKeyboardSelected == false && state.isEmojiSelected == false) {
       ratio = 4;
-    } else if (state.isKeyboardSelected == true && state.isEmojiSelected == false) {
+    } else if (state.isKeyboardSelected == true &&
+        state.isEmojiSelected == false) {
       ratio = 2;
-    } else if (state.isKeyboardSelected == false && state.isEmojiSelected == true) {
+    } else if (state.isKeyboardSelected == false &&
+        state.isEmojiSelected == true) {
       ratio = 1;
     }
     return ratio;
   }
 
-
   Widget _buildListView(ChatState state) {
-    return ListView(
-      controller: _scrollController,
-      children: state.messages
-          .map((message) => MessageItem(message: message))
-          .toList(),
-    );
+    if (widget.historyMessages == null) {
+      return Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+            Text(
+              'No Messages',
+              style: TextStyle(fontSize: 20),
+            )
+          ]));
+    } else {
+      return ListView(
+        controller: _scrollController,
+        children: widget.historyMessages!
+            .map((message) => MessageItem(message: message))
+            .toList(),
+      );
+    }
   }
 
   AppBar _buildAppBar() {
@@ -197,17 +223,17 @@ class _ChatScreenState extends State<ChatScreen> {
       ],
       title: Center(
         child: Column(
-          children: const [
+          children: [
             Text(
-              '#composer',
-              style: TextStyle(
+              widget.chatRoomTitle,
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              '42 members',
-              style: TextStyle(
+              '${widget.numOfMembers ?? 0}',
+              style: const TextStyle(
                 fontSize: 18,
               ),
             ),
@@ -221,83 +247,43 @@ class _ChatScreenState extends State<ChatScreen> {
     return Drawer(
       child: Container(
         color: color.brightBlue,
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 150,
+            const Flexible(
+              flex: 1,
               child: DrawerHeader(
-                //margin: EdgeInsets.only(bottom: 8),
-                //padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(),
                 child: Text(
                   'Jet Chat',
                   style: TextStyle(fontSize: 25),
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text('Chats'),
-            ),
-            ListTile(
-              title: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: color.selectedBlue,
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Composers',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                ),
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.transparent,
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'droidcon-nyc',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                ),
-              ),
-              onTap: () {},
-            ),
-            const Divider(
-              thickness: 1,
-              color: Colors.grey,
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text('Recent Profiles'),
-            ),
-            Column(
-              children: state.users.map((userProfile) {
-                return DrawerProfileList(
-                  userProfile: userProfile,
-                  onTap: (userProfile) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditProfileScreen(
+            const Flexible(flex:1,child: Text('Member`s Profiles')),
+            Flexible(
+              flex: 4,
+              child: Column(
+                mainAxisAlignment: (widget.users == null)
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start,
+                children: (widget.users == null)
+                    ? [const Text('Empty User')]
+                    : widget.users!.map((userProfile) {
+                        return DrawerProfileList(
                           userProfile: userProfile,
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
+                          onTap: (userProfile) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfileScreen(
+                                  userProfile: userProfile,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+              ),
             ),
           ],
         ),

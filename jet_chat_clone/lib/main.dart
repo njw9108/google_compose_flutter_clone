@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jet_chat_clone/di/provider_setup.dart';
 import 'package:jet_chat_clone/presentation/chat/chat_screen.dart';
+import 'package:jet_chat_clone/presentation/chat_room_list/chat_room_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ChatScreen(),
+      home: const ChatRoomScreen(),
     );
   }
 }

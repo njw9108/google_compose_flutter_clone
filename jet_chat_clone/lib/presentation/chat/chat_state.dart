@@ -9,8 +9,8 @@ part 'chat_state.g.dart';
 @freezed
 class ChatState with _$ChatState {
   factory ChatState({
-    @Default([]) List<UserProfile> users,
-    @Default([]) List<Message> messages,
+    // @Default([]) List<UserProfile> users,
+    // @Default([]) List<Message> messages,
     @Default(false) bool showButton,
     @Default(false) bool isKeyboardSelected,
     @Default(false) bool isEmojiSelected,
