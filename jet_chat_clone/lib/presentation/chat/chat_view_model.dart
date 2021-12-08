@@ -66,6 +66,7 @@ class ChatViewModel with ChangeNotifier {
       users: users,
       numOfMembers: numOfMembers,
     );
+    notifyListeners();
   }
 
   void emojiSelectChange(bool selected) {

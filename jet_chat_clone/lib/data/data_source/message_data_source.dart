@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:jet_chat_clone/domain/model/chat_room.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/domain/model/send_chat_data.dart';
@@ -14,7 +15,50 @@ class MessageDataSource {
 
   Future<List<ChatRoom>> loadChatRooms() async {
     final QuerySnapshot<ChatRoom> querySnapshot = await _chatRooms.get();
-    return querySnapshot.docs.map((e) => e.data()).toList();
+
+    final chatRoomData = querySnapshot.docs.map((e) => e.data()).toList();
+
+    List<ChatRoom> results = [];
+
+    for (int i = 0; i < chatRoomData.length; i++) {
+      final messageRef = _chatRooms
+          .doc('OpenChat${i + 1}')
+          .collection('messages')
+          .withConverter<Message>(
+            fromFirestore: (snapshot, _) => Message.fromJson(snapshot.data()!),
+            toFirestore: (message, _) => message.toJson(),
+          );
+
+      final QuerySnapshot<Message> querySnapshotMessages =
+          await messageRef.get();
+      final List<Message> messages =
+          querySnapshotMessages.docs.map((e) => e.data()).toList();
+
+      final usersRef = _chatRooms
+          .doc('OpenChat${i + 1}')
+          .collection('users')
+          .withConverter<UserProfile>(
+            fromFirestore: (snapshot, _) =>
+                UserProfile.fromJson(snapshot.data()!),
+            toFirestore: (user, _) => user.toJson(),
+          );
+
+      final QuerySnapshot<UserProfile> querySnapshotUsers =
+          await usersRef.get();
+      final List<UserProfile> users =
+          querySnapshotUsers.docs.map((e) => e.data()).toList();
+
+      ChatRoom data;
+      data = ChatRoom(
+          chatRoomTitle: chatRoomData[i].chatRoomTitle,
+          messages: messages,
+          users: users,
+          numberOfMember: users.length);
+
+      results.add(data);
+    }
+
+    return results;
   }
 
   Future<List<Message>> loadHistoryMessage() async {
@@ -29,14 +73,26 @@ class MessageDataSource {
     return profiles;
   }
 
+  // Future<void> sendMessage(SendChatData chatData) async {
+  //   final message = _chatRooms.doc('OpenChat1').withConverter<Message>(
+  //         fromFirestore: (snapshot, _) => Message.fromJson(snapshot.data()!),
+  //         toFirestore: (message, _) => message.toJson(),
+  //       );
+  //
+  //   _chatRooms.doc('OpenChat1');
+  //
+  // }
+
   Future<void> sendMessage(SendChatData chatData) async {
-    final message = _chatRooms.doc('OpenChat1').withConverter<Message>(
+    final messageRef = _chatRooms
+        .doc('OpenChat1')
+        .collection('messages')
+        .withConverter<Message>(
           fromFirestore: (snapshot, _) => Message.fromJson(snapshot.data()!),
           toFirestore: (message, _) => message.toJson(),
         );
 
-    _chatRooms.doc('OpenChat1');
-
+    await messageRef.add(chatData.message);
   }
 
   Future<Message> receiveMessage() async {
