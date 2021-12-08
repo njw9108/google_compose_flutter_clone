@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/domain/model/user_profile.dart';
@@ -45,6 +44,13 @@ class _ChatScreenState extends State<ChatScreen> {
     Future.microtask(() {
       final viewModel = context.read<ChatViewModel>();
 
+      print('set Chat View Model Data');
+      viewModel.setChatRoomData(
+          chatRoomTitle: widget.chatRoomTitle,
+          historyMessages: widget.historyMessages,
+          users: widget.users,
+          numOfMembers: widget.numOfMembers);
+
       // 구독
       _streamSubscription = viewModel.eventStream.listen((event) {
         event.when(
@@ -52,14 +58,17 @@ class _ChatScreenState extends State<ChatScreen> {
           jumpToBottom: () {
             WidgetsBinding.instance!.addPostFrameCallback(
               (_) {
-                _scrollController
-                    .jumpTo(_scrollController.position.maxScrollExtent);
+                // ignore: invalid_use_of_protected_member
+                if (_scrollController.hasClients) {
+                  _scrollController
+                      .jumpTo(_scrollController.position.maxScrollExtent);
+                }
               },
             );
           },
           showButton: () {},
           hideButton: () {},
-          sendMessage: (Message message) {
+          sendMessage: (Message message, String title) {
             textEditingController.clear();
             FocusScope.of(context).unfocus();
           },
@@ -115,17 +124,21 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: _buildListView(state),
                 onNotification: (event) {
                   if (event is UserScrollNotification) {
-                    if (_scrollController.offset !=
-                            _scrollController.position.maxScrollExtent &&
-                        state.showButton == false) {
-                      viewModel.onEvent(const ChatUiEvent.showButton());
+                    if (_scrollController.hasClients) {
+                      if (_scrollController.offset !=
+                              _scrollController.position.maxScrollExtent &&
+                          state.showButton == false) {
+                        viewModel.onEvent(const ChatUiEvent.showButton());
+                      }
                     }
                   }
                   if (event is ScrollEndNotification) {
-                    if (_scrollController.offset ==
-                            _scrollController.position.maxScrollExtent &&
-                        state.showButton == true) {
-                      viewModel.onEvent(const ChatUiEvent.hideButton());
+                    if (_scrollController.hasClients) {
+                      if (_scrollController.offset ==
+                              _scrollController.position.maxScrollExtent &&
+                          state.showButton == true) {
+                        viewModel.onEvent(const ChatUiEvent.hideButton());
+                      }
                     }
                   }
                   return false;
@@ -259,7 +272,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
             ),
-            const Flexible(flex:1,child: Text('Member`s Profiles')),
+            const Flexible(flex: 1, child: Text('Member`s Profiles')),
             Flexible(
               flex: 4,
               child: Column(

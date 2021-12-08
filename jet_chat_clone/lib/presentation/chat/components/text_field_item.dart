@@ -117,11 +117,16 @@ class _TextFieldItemState extends State<TextFieldItem> {
                       final timestamp = DateTime.now();
 
                       if (content.isNotEmpty) {
-                        viewModel.onEvent(ChatUiEvent.sendMessage(Message(
-                          author: 'me',
-                          content: content,
-                          timestamp: timestamp.millisecondsSinceEpoch,
-                        )));
+                        viewModel.onEvent(
+                          ChatUiEvent.sendMessage(
+                            Message(
+                              author: 'me',
+                              content: content,
+                              timestamp: timestamp.millisecondsSinceEpoch,
+                            ),
+                            viewModel.state.chatRoomTitle,
+                          ),
+                        );
 
                         FocusScope.of(context).unfocus();
                       }

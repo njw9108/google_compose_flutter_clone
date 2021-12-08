@@ -13,5 +13,5 @@ abstract class ChatUiEvent with _$ChatUiEvent {
 
   const factory ChatUiEvent.hideButton() = HideButton;
 
-  const factory ChatUiEvent.sendMessage(Message message) = SendMessage;
+  const factory ChatUiEvent.sendMessage(Message message, String title) = SendMessage;
 }

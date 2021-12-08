@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jet_chat_clone/domain/model/chat_room.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
+import 'package:jet_chat_clone/domain/model/send_chat_data.dart';
 import 'package:jet_chat_clone/domain/model/user_profile.dart';
 
 class MessageDataSource {
-  final _chatRooms =
-  FirebaseFirestore.instance.collection('chat_rooms').withConverter<ChatRoom>(
-    fromFirestore: (snapshot, _) => ChatRoom.fromJson(snapshot.data()!),
-    toFirestore: (chatRoom, _) => chatRoom.toJson(),
-  );
+  final _chatRooms = FirebaseFirestore.instance
+      .collection('chat_rooms')
+      .withConverter<ChatRoom>(
+        fromFirestore: (snapshot, _) => ChatRoom.fromJson(snapshot.data()!),
+        toFirestore: (chatRoom, _) => chatRoom.toJson(),
+      );
 
-    Future<List<ChatRoom>> loadChatRooms() async {
+  Future<List<ChatRoom>> loadChatRooms() async {
     final QuerySnapshot<ChatRoom> querySnapshot = await _chatRooms.get();
     return querySnapshot.docs.map((e) => e.data()).toList();
   }
@@ -27,8 +29,14 @@ class MessageDataSource {
     return profiles;
   }
 
-  Future<void> sendMessage(Message message) async {
-    //await _messages.add(message);
+  Future<void> sendMessage(SendChatData chatData) async {
+    final message = _chatRooms.doc('OpenChat1').withConverter<Message>(
+          fromFirestore: (snapshot, _) => Message.fromJson(snapshot.data()!),
+          toFirestore: (message, _) => message.toJson(),
+        );
+
+    _chatRooms.doc('OpenChat1');
+
   }
 
   Future<Message> receiveMessage() async {
@@ -39,8 +47,22 @@ class MessageDataSource {
 }
 
 List<UserProfile> profiles = [
-  UserProfile(userId: '123', name: 'Ali Conors', displayName: 'ali', userImageUrl: 'imgs/ali.png', position: 'Senior Android Dev at Yearin\nGoogle Developer Expert', timeZone: 'In your timezone', twitter: 'twitter.com/aliconors'),
-  UserProfile(userId: '456', name: 'Taylor Brooks', displayName: 'taylor', userImageUrl: 'imgs/someone_else.png', position: 'Senior Android Dev at Openlane', timeZone: 'twitter.com/taylorbrookscodes', twitter: '12:25 AM local time (Eastern Daylight Time)'),
+  UserProfile(
+      userId: '123',
+      name: 'Ali Conors',
+      displayName: 'ali',
+      userImageUrl: 'imgs/ali.png',
+      position: 'Senior Android Dev at Yearin\nGoogle Developer Expert',
+      timeZone: 'In your timezone',
+      twitter: 'twitter.com/aliconors'),
+  UserProfile(
+      userId: '456',
+      name: 'Taylor Brooks',
+      displayName: 'taylor',
+      userImageUrl: 'imgs/someone_else.png',
+      position: 'Senior Android Dev at Openlane',
+      timeZone: 'twitter.com/taylorbrookscodes',
+      twitter: '12:25 AM local time (Eastern Daylight Time)'),
 ];
 
 // List<Message> messages = [
