@@ -1,15 +1,16 @@
 import 'package:jet_chat_clone/core/result.dart';
 import 'package:jet_chat_clone/core/use_case.dart';
+import 'package:jet_chat_clone/domain/model/chat_room.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/domain/repository/message_repository.dart';
 
-class LoadHistoryUseCase extends UseCase<Result<List<Message>>, NoParams> {
+class LoadChatRoomUseCase extends UseCase<Result<List<ChatRoom>>, NoParams> {
   MessageRepository repository;
 
-  LoadHistoryUseCase(this.repository);
+  LoadChatRoomUseCase(this.repository);
 
   @override
-  Future<Result<List<Message>>> call(NoParams params) async {
-    return await repository.loadHistoryMessage();
+  Future<Result<List<ChatRoom>>> call(NoParams params) async {
+    return await repository.loadChatRooms();
   }
 }

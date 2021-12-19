@@ -10,7 +10,7 @@ class Message with _$Message {
   factory Message({
     required String author,
     required String content,
-    required String timestamp,
+    required int timestamp,
     String? authorImageUrl,
   }) = _Message;
 

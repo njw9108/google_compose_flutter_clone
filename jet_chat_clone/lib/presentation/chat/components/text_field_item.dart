@@ -104,7 +104,7 @@ class _TextFieldItemState extends State<TextFieldItem> {
                     )
                     .toList(),
                 ElevatedButton(
-                  focusNode: _iconFocusNode,
+                    focusNode: _iconFocusNode,
                     style: ElevatedButton.styleFrom(
                       primary: (widget.textEditingController.text.isNotEmpty)
                           ? const Color.fromRGBO(0, 0, 255, 70)
@@ -117,10 +117,16 @@ class _TextFieldItemState extends State<TextFieldItem> {
                       final timestamp = DateTime.now();
 
                       if (content.isNotEmpty) {
-                        viewModel.onEvent(ChatUiEvent.sendMessage(Message(
-                            author: 'me',
-                            content: content,
-                            timestamp: DateFormat.jm().format(timestamp))));
+                        viewModel.onEvent(
+                          ChatUiEvent.sendMessage(
+                            Message(
+                              author: 'me',
+                              content: content,
+                              timestamp: timestamp.millisecondsSinceEpoch,
+                            ),
+                            viewModel.state.chatRoomTitle,
+                          ),
+                        );
 
                         FocusScope.of(context).unfocus();
                       }
