@@ -2,7 +2,7 @@ import 'package:jet_news_clone/core/result.dart';
 import 'package:jet_news_clone/domain/model/post.dart';
 import 'package:jet_news_clone/domain/model/posts_feed.dart';
 
-abstract class PostRepository {
+abstract class PostsRepository {
   //Get a specific JetNews post.
   Future<Result<Post>> getPost(String? postId);
 
