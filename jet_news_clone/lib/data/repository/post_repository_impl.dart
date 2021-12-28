@@ -22,5 +22,4 @@ class PostRepositoryImpl implements PostsRepository {
   void toggleFavorite(String postId) {
     // TODO: implement toggleFavorite
   }
-  
 }
