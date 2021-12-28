@@ -57,7 +57,9 @@ class _PostsScreenState extends State<PostsScreen> {
                       onclick: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const PostDetailPage()),
+                          MaterialPageRoute(
+                              builder: (context) => PostDetailPage(
+                                  post: state.feed!.highlightedPost)),
                         );
                       },
                     ),
