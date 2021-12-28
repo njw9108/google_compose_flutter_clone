@@ -18,12 +18,12 @@ class Paragraph with _$Paragraph {
 }
 
 enum ParagraphType {
-  title,
-  caption,
-  header,
-  subhead,
-  text,
-  codeBlock,
-  quote,
-  bullet,
+  Title,
+  Caption,
+  Header,
+  Subhead,
+  Text,
+  CodeBlock,
+  Quote,
+  Bullet,
 }

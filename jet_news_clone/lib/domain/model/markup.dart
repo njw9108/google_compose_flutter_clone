@@ -17,8 +17,8 @@ class Markup with _$Markup {
 }
 
 enum MarkupType {
-  link,
-  code,
-  italic,
-  bold,
+  Link,
+  Code,
+  Italic,
+  Bold,
 }
