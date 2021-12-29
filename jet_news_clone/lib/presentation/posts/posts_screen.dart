@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jet_news_clone/presentation/interests/interest_screen.dart';
 import 'package:jet_news_clone/presentation/posts/components/highlight_post_widget.dart';
@@ -31,7 +30,6 @@ class _PostsScreenState extends State<PostsScreen> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<PostViewModel>();
     final state = viewModel.state;
-
     return Scaffold(
       drawer: SafeArea(
         child: Drawer(
