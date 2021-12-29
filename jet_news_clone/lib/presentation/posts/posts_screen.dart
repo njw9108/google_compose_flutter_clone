@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jet_news_clone/presentation/interests/interest_screen.dart';
 import 'package:jet_news_clone/presentation/posts/components/highlight_post_widget.dart';
 import 'package:jet_news_clone/presentation/posts/components/popular_post_widget.dart';
 import 'package:jet_news_clone/presentation/posts/components/recent_post_widget.dart';
@@ -33,60 +34,68 @@ class _PostsScreenState extends State<PostsScreen> {
 
     return Scaffold(
       drawer: SafeArea(
-          child: Drawer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const ListTile(
-              leading: Icon(Icons.beach_access_rounded),
-              title: Text(
-                'Jet News',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const Divider(
-              color: Colors.grey,
-              thickness: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                tileColor: state.selectedDrawer == DrawerType.home
-                    ? Colors.pinkAccent
-                    : Colors.transparent,
-                onTap: () {
-                  viewModel.onDrawerSelectChange(DrawerType.home);
-                  Navigator.of(context).pop();
-                },
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.home),
-                title: const Text(
-                  'Home',
-                  style: TextStyle(fontSize: 20),
+        child: Drawer(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const ListTile(
+                leading: Icon(Icons.beach_access_rounded),
+                title: Text(
+                  'Jet News',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                tileColor: state.selectedDrawer == DrawerType.interest
-                    ? Colors.pinkAccent
-                    : Colors.transparent,
-                onTap: () {
-                  viewModel.onDrawerSelectChange(DrawerType.interest);
-                  Navigator.of(context).pop();
-                },
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.message_outlined),
-                title: const Text(
-                  'Interest',
-                  style: TextStyle(fontSize: 20),
+              const Divider(
+                color: Colors.grey,
+                thickness: 1,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  tileColor: state.selectedDrawer == DrawerType.home
+                      ? Colors.pinkAccent
+                      : Colors.transparent,
+                  onTap: () {
+                    viewModel.onDrawerSelectChange(DrawerType.home);
+                    Navigator.of(context).pop();
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.home),
+                  title: const Text(
+                    'Home',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  tileColor: state.selectedDrawer == DrawerType.interest
+                      ? Colors.pinkAccent
+                      : Colors.transparent,
+                  onTap: () {
+                    viewModel.onDrawerSelectChange(DrawerType.interest);
+                    Navigator.of(context).pop();
+                    if (state.selectedDrawer != DrawerType.interest) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const InterestScreen()),
+                      );
+                    }
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.message_outlined),
+                  title: const Text(
+                    'Interest',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
