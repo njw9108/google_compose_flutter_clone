@@ -30,7 +30,7 @@ class NewsDataSource {
         highlightedPost: totalPosts[3],
         recommendedPosts: [totalPosts[0], totalPosts[1], totalPosts[2]],
         popularPosts: [totalPosts[4], totalPosts[5], totalPosts[6]],
-        recentPosts: [totalPosts[7], totalPosts[8], totalPosts[8]],
+        recentPosts: [totalPosts[7], totalPosts[8], totalPosts[9]],
       );
 
       return Result.success(feed);
