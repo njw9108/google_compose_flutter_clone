@@ -109,7 +109,13 @@ class PostDetailPage extends StatelessWidget {
           ),
         );
       case ParagraphType.Subhead:
-        return const Text('subhead');
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            paragraph.text,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        );
       case ParagraphType.Text:
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
