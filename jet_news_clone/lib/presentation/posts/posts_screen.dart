@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jet_news_clone/presentation/posts/components/highlight_post_widget.dart';
+import 'package:jet_news_clone/presentation/posts/components/popular_post_widget.dart';
 import 'package:jet_news_clone/presentation/posts/components/recommended_post_widget.dart';
 import 'package:jet_news_clone/presentation/posts/detail_page/post_detail_page.dart';
 import 'package:jet_news_clone/presentation/posts/posts_view_model.dart';
@@ -89,6 +90,37 @@ class _PostsScreenState extends State<PostsScreen> {
                             },
                           ))
                       .toList(),
+                  const Padding(
+                    padding: EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 4.0, top: 20),
+                    child: Text(
+                      'Popular on Jetnews',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: SizedBox(
+                      height: 280,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: state.feed!.popularPosts
+                            .map((e) => PopularPostWidget(
+                                  popularPost: e,
+                                  onclick: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PostDetailPage(post: e)),
+                                    );
+                                  },
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  )
                 ],
               ),
       ),
