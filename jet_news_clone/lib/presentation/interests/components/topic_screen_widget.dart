@@ -19,8 +19,17 @@ final List technology = [
   "Google",
 ];
 
-class TopicScreenWidget extends StatelessWidget {
-  const TopicScreenWidget({Key? key}) : super(key: key);
+class TopicScreenWidget extends StatefulWidget {
+  const TopicScreenWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<TopicScreenWidget> createState() => _TopicScreenWidgetState();
+}
+
+class _TopicScreenWidgetState extends State<TopicScreenWidget> {
+  bool isClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +48,21 @@ class TopicScreenWidget extends StatelessWidget {
             return Column(
               children: [
                 ListTile(
+                  onTap: () {
+                    setState(() {
+                      isClicked = !isClicked;
+                    });
+                  },
                   leading: Image.asset('imgs/placeholder_1_1.png'),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.add_circle_outline,
-                      size: 35,
-                    ),
-                  ),
+                  trailing: isClicked == false
+                      ? const Icon(
+                          Icons.add_circle_outline,
+                          size: 35,
+                        )
+                      : const Icon(
+                          Icons.check_circle_outline,
+                          size: 35,
+                        ),
                   title: Text(
                     e,
                     style: const TextStyle(
@@ -71,14 +87,21 @@ class TopicScreenWidget extends StatelessWidget {
             return Column(
               children: [
                 ListTile(
+                  onTap: () {
+                    setState(() {
+                      isClicked = true;
+                    });
+                  },
                   leading: Image.asset('imgs/placeholder_1_1.png'),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.add_circle_outline,
-                      size: 35,
-                    ),
-                  ),
+                  trailing: isClicked == false
+                      ? const Icon(
+                          Icons.add_circle_outline,
+                          size: 35,
+                        )
+                      : const Icon(
+                          Icons.check_circle_outline,
+                          size: 35,
+                        ),
                   title: Text(
                     e,
                     style: const TextStyle(
@@ -103,14 +126,21 @@ class TopicScreenWidget extends StatelessWidget {
             return Column(
               children: [
                 ListTile(
+                  onTap: () {
+                    setState(() {
+                      isClicked = true;
+                    });
+                  },
                   leading: Image.asset('imgs/placeholder_1_1.png'),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.add_circle_outline,
-                      size: 35,
-                    ),
-                  ),
+                  trailing: isClicked == false
+                      ? const Icon(
+                          Icons.add_circle_outline,
+                          size: 35,
+                        )
+                      : const Icon(
+                          Icons.check_circle_outline,
+                          size: 35,
+                        ),
                   title: Text(
                     e,
                     style: const TextStyle(

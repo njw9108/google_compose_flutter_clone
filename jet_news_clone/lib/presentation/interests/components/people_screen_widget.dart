@@ -12,8 +12,18 @@ final List people = [
   "Kemarrin Muuda"
 ];
 
-class PeopleScreenWidget extends StatelessWidget {
-  const PeopleScreenWidget({Key? key}) : super(key: key);
+class PeopleScreenWidget extends StatefulWidget {
+  const PeopleScreenWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<PeopleScreenWidget> createState() => _PeopleScreenWidgetState();
+}
+
+class _PeopleScreenWidgetState extends State<PeopleScreenWidget> {
+  bool isClicked = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +34,20 @@ class PeopleScreenWidget extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
+                onTap: (){
+                  setState(() {
+                    isClicked = !isClicked;
+                  });
+                },
                 leading: Image.asset('imgs/placeholder_1_1.png'),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.add_circle_outline,
-                    size: 35,
-                  ),
+                trailing: isClicked == false
+                    ? const Icon(
+                  Icons.add_circle_outline,
+                  size: 35,
+                )
+                    : const Icon(
+                  Icons.check_circle_outline,
+                  size: 35,
                 ),
                 title: Text(
                   e,

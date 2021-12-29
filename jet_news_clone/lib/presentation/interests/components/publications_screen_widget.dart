@@ -12,8 +12,17 @@ final List publications = [
   "Compose Tribune"
 ];
 
-class PublicationsScreenWidget extends StatelessWidget {
-  const PublicationsScreenWidget({Key? key}) : super(key: key);
+class PublicationsScreenWidget extends StatefulWidget {
+  const PublicationsScreenWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<PublicationsScreenWidget> createState() => _PublicationsScreenWidgetState();
+}
+
+class _PublicationsScreenWidgetState extends State<PublicationsScreenWidget> {
+  bool isClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +33,20 @@ class PublicationsScreenWidget extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
+                onTap: (){
+                  setState(() {
+                    isClicked = !isClicked;
+                  });
+                },
                 leading: Image.asset('imgs/placeholder_1_1.png'),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.add_circle_outline,
-                    size: 35,
-                  ),
+                trailing: isClicked == false
+                    ? const Icon(
+                  Icons.add_circle_outline,
+                  size: 35,
+                )
+                    : const Icon(
+                  Icons.check_circle_outline,
+                  size: 35,
                 ),
                 title: Text(
                   e,
