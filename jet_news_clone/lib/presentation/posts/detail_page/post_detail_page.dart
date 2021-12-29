@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jet_news_clone/domain/model/paragraph.dart';
 import 'package:jet_news_clone/domain/model/post.dart';
@@ -96,27 +95,66 @@ class PostDetailPage extends StatelessWidget {
   }
 
   Widget buildContent(Paragraph paragraph) {
-    switch(paragraph.type) {
-
+    switch (paragraph.type) {
       case ParagraphType.Title:
         return const Text('title');
       case ParagraphType.Caption:
         return const Text('Caption');
       case ParagraphType.Header:
-        return const Text('header');
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Text(
+            paragraph.text,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+          ),
+        );
       case ParagraphType.Subhead:
         return const Text('subhead');
       case ParagraphType.Text:
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(paragraph.text,style: const TextStyle(fontSize: 22),),
+          child: Text(
+            paragraph.text,
+            style: const TextStyle(fontSize: 20, height: 1.3),
+          ),
         );
       case ParagraphType.CodeBlock:
-        return const Text('Code block');
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.grey,
+            child: Text(
+              paragraph.text,
+              style: const TextStyle(fontSize: 18, height: 1.5),
+            ),
+          ),
+        );
       case ParagraphType.Quote:
-        return const Text('quote');
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.lightGreen,
+            child: Text(
+              paragraph.text,
+              style: const TextStyle(fontSize: 18, height: 1.5),
+            ),
+          ),
+        );
       case ParagraphType.Bullet:
-        return const Text('bullet');
+        return ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(
+            Icons.circle,
+            color: Colors.black,
+            size: 15,
+          ),
+          title: Text(
+            paragraph.text,
+            style: const TextStyle(fontSize: 18),
+          ),
+        );
     }
   }
 }
