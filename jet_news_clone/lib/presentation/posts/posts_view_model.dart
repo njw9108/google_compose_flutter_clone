@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jet_news_clone/domain/use_case/get_post_feed_use_case.dart';
 import 'package:jet_news_clone/presentation/posts/posts_state.dart';
+import 'package:jet_news_clone/ui/ui.dart';
 
 class PostViewModel with ChangeNotifier {
   final GetPostFeedUseCase _getPostFeed;
@@ -8,6 +9,7 @@ class PostViewModel with ChangeNotifier {
   PostViewModel(this._getPostFeed);
 
   PostsState _state = PostsState();
+
   PostsState get state => _state;
 
   void fetchPosts() async {
@@ -20,4 +22,8 @@ class PostViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void onDrawerSelectChange(DrawerType type) {
+    _state = state.copyWith(selectedDrawer: type);
+    notifyListeners();
+  }
 }
