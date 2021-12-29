@@ -33,6 +33,8 @@ class RecommendedPostWidget extends StatelessWidget {
             title: Text(
               recommendedPost.title,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
             subtitle: Text(
               recommendedPost.metadata.author.name +
