@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:jet_news_clone/domain/model/topic.dart';
 
-final List publications = [
-  "Kotlin Vibe",
-  "Compose Mix",
-  "Compose Breakdown",
-  "Android Pursue",
-  "Kotlin Watchman",
-  "Jetpack Ark",
-  "Composeshack",
-  "Jetpack Point",
-  "Compose Tribune"
+final List<Topic> publications = [
+  Topic(title: "Kotlin Vibe", category: "publications"),
+  Topic(title: "Compose Mix", category: "publications"),
+  Topic(title: "Compose Breakdown", category: "publications"),
+  Topic(title: "Android Pursue", category: "publications"),
+  Topic(title: "Kotlin Watchman", category: "publications"),
+  Topic(title: "Jetpack Ark", category: "publications"),
+  Topic(title: "Composeshack", category: "publications"),
+  Topic(title: "Jetpack Point", category: "publications"),
+  Topic(title: "Compose Tribune", category: "publications"),
 ];
 
 class PublicationsScreenWidget extends StatefulWidget {
@@ -18,38 +19,43 @@ class PublicationsScreenWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PublicationsScreenWidget> createState() => _PublicationsScreenWidgetState();
+  State<PublicationsScreenWidget> createState() =>
+      _PublicationsScreenWidgetState();
 }
 
 class _PublicationsScreenWidgetState extends State<PublicationsScreenWidget> {
-  bool isClicked = false;
+  Set<Topic> favoriteTopicSet = {};
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: publications.map((e) {
+      children: publications.where((element) => element.category == "publications").map((e) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               ListTile(
-                onTap: (){
+                onTap: () {
                   setState(() {
-                    isClicked = !isClicked;
+                    if (favoriteTopicSet.contains(e)) {
+                      favoriteTopicSet.remove(e);
+                    } else {
+                      favoriteTopicSet.add(e);
+                    }
                   });
                 },
                 leading: Image.asset('imgs/placeholder_1_1.png'),
-                trailing: isClicked == false
+                trailing: favoriteTopicSet.contains(e) == false
                     ? const Icon(
-                  Icons.add_circle_outline,
-                  size: 35,
-                )
+                        Icons.add_circle_outline,
+                        size: 35,
+                      )
                     : const Icon(
-                  Icons.check_circle_outline,
-                  size: 35,
-                ),
+                        Icons.check_circle_outline,
+                        size: 35,
+                      ),
                 title: Text(
-                  e,
+                  e.title,
                   style: const TextStyle(
                     fontSize: 20,
                   ),

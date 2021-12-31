@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:jet_news_clone/domain/model/topic.dart';
 
-final List android = [
-  "Jetpack Compose",
-  "Kotlin",
-  "Jetpack",
-];
-
-final List programming = [
-  "Kotlin",
-  "Declarative UIs",
-  "Java",
-  "Unidirectional Data Flow",
-  "C++",
-];
-
-final List technology = [
-  "Pixel",
-  "Google",
+final List<Topic> topics = [
+  Topic(title: "Jetpack Compose", category: "Android"),
+  Topic(title: "Kotlin", category: "Android"),
+  Topic(title: "Jetpack", category: "Android"),
+  Topic(title: "Kotlin", category: "Programming"),
+  Topic(title: "Declarative UIs", category: "Programming"),
+  Topic(title: "Java", category: "Programming"),
+  Topic(title: "Unidirectional Data Flow", category: "Programming"),
+  Topic(title: "C++", category: "Programming"),
+  Topic(title: "Pixel", category: "Technology"),
+  Topic(title: "Google", category: "Technology"),
 ];
 
 class TopicScreenWidget extends StatefulWidget {
@@ -29,7 +24,7 @@ class TopicScreenWidget extends StatefulWidget {
 }
 
 class _TopicScreenWidgetState extends State<TopicScreenWidget> {
-  bool isClicked = false;
+  Set<Topic> favoriteTopicSet = {};
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +39,21 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
-          ...android.map((e) {
+          ...topics.where((element) => element.category == "Android").map((e) {
             return Column(
               children: [
                 ListTile(
                   onTap: () {
                     setState(() {
-                      isClicked = !isClicked;
+                      if (favoriteTopicSet.contains(e)) {
+                        favoriteTopicSet.remove(e);
+                      } else {
+                        favoriteTopicSet.add(e);
+                      }
                     });
                   },
                   leading: Image.asset('imgs/placeholder_1_1.png'),
-                  trailing: isClicked == false
+                  trailing: favoriteTopicSet.contains(e) == false
                       ? const Icon(
                           Icons.add_circle_outline,
                           size: 35,
@@ -64,7 +63,7 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
                           size: 35,
                         ),
                   title: Text(
-                    e,
+                    e.title,
                     style: const TextStyle(
                       fontSize: 20,
                     ),
@@ -83,17 +82,23 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
-          ...programming.map((e) {
+          ...topics
+              .where((element) => element.category == "Programming")
+              .map((e) {
             return Column(
               children: [
                 ListTile(
                   onTap: () {
                     setState(() {
-                      isClicked = true;
+                      if (favoriteTopicSet.contains(e)) {
+                        favoriteTopicSet.remove(e);
+                      } else {
+                        favoriteTopicSet.add(e);
+                      }
                     });
                   },
                   leading: Image.asset('imgs/placeholder_1_1.png'),
-                  trailing: isClicked == false
+                  trailing: favoriteTopicSet.contains(e) == false
                       ? const Icon(
                           Icons.add_circle_outline,
                           size: 35,
@@ -103,7 +108,7 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
                           size: 35,
                         ),
                   title: Text(
-                    e,
+                    e.title,
                     style: const TextStyle(
                       fontSize: 20,
                     ),
@@ -122,17 +127,23 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
-          ...technology.map((e) {
+          ...topics
+              .where((element) => element.category == "Technology")
+              .map((e) {
             return Column(
               children: [
                 ListTile(
                   onTap: () {
                     setState(() {
-                      isClicked = true;
+                      if (favoriteTopicSet.contains(e)) {
+                        favoriteTopicSet.remove(e);
+                      } else {
+                        favoriteTopicSet.add(e);
+                      }
                     });
                   },
                   leading: Image.asset('imgs/placeholder_1_1.png'),
-                  trailing: isClicked == false
+                  trailing: favoriteTopicSet.contains(e) == false
                       ? const Icon(
                           Icons.add_circle_outline,
                           size: 35,
@@ -142,7 +153,7 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
                           size: 35,
                         ),
                   title: Text(
-                    e,
+                    e.title,
                     style: const TextStyle(
                       fontSize: 20,
                     ),
