@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jet_news_clone/domain/model/post.dart';
+import 'package:jet_news_clone/presentation/posts/posts_event.dart';
+import 'package:jet_news_clone/presentation/posts/posts_view_model.dart';
+import 'package:provider/provider.dart';
 
 class RecommendedPostWidget extends StatelessWidget {
   final Post recommendedPost;
@@ -13,6 +16,8 @@ class RecommendedPostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<PostViewModel>();
+    final state = viewModel.state;
     return InkWell(
       onTap: onclick,
       child: Column(
@@ -24,11 +29,19 @@ class RecommendedPostWidget extends StatelessWidget {
               width: 50,
             ),
             trailing: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.bookmark_border,
-                size: 28,
-              ),
+              onPressed: () {
+                viewModel
+                    .onEvent(PostsEvent.toggleFavoritePost(recommendedPost));
+              },
+              icon: state.favoritePostSet.contains(recommendedPost)
+                  ? const Icon(
+                      Icons.bookmark,
+                      size: 28,
+                    )
+                  : const Icon(
+                      Icons.bookmark_border,
+                      size: 28,
+                    ),
             ),
             title: Text(
               recommendedPost.title,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jet_news_clone/domain/model/paragraph.dart';
 import 'package:jet_news_clone/domain/model/post.dart';
+import 'package:jet_news_clone/presentation/posts/posts_event.dart';
+import 'package:jet_news_clone/presentation/posts/posts_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PostDetailPage extends StatelessWidget {
   final Post post;
@@ -9,6 +12,8 @@ class PostDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<PostViewModel>();
+    final state = viewModel.state;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -29,6 +34,37 @@ class PostDetailPage extends StatelessWidget {
                 Text(post.publication!.name),
               ],
             )
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.thumb_up_alt_outlined),
+                ),
+                IconButton(
+                  onPressed: () {
+                    viewModel.onEvent(PostsEvent.toggleFavoritePost(post));
+                  },
+                  icon: state.favoritePostSet.contains(post)
+                      ? const Icon(Icons.bookmark)
+                      : const Icon(Icons.bookmark_border),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.share),
+                ),
+              ],
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.language),
+            ),
           ],
         ),
       ),
