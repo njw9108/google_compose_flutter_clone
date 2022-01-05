@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jet_news_clone/domain/model/topic.dart';
+import 'package:jet_news_clone/presentation/interests/interest_event.dart';
 import 'package:jet_news_clone/presentation/interests/interest_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +13,6 @@ class TopicScreenWidget extends StatefulWidget {
 }
 
 class _TopicScreenWidgetState extends State<TopicScreenWidget> {
-  Set<Topic> favoriteTopicSet = {};
-
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<InterestViewModel>();
@@ -39,16 +37,10 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
                     children: [
                       ListTile(
                         onTap: () {
-                          setState(() {
-                            if (favoriteTopicSet.contains(e)) {
-                              favoriteTopicSet.remove(e);
-                            } else {
-                              favoriteTopicSet.add(e);
-                            }
-                          });
+                          viewModel.onEvent(ToggleTopic(e));
                         },
                         leading: Image.asset('imgs/placeholder_1_1.png'),
-                        trailing: favoriteTopicSet.contains(e) == false
+                        trailing: state.favoriteTopicSet.contains(e) == false
                             ? const Icon(
                                 Icons.add_circle_outline,
                                 size: 35,
@@ -84,16 +76,10 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
                     children: [
                       ListTile(
                         onTap: () {
-                          setState(() {
-                            if (favoriteTopicSet.contains(e)) {
-                              favoriteTopicSet.remove(e);
-                            } else {
-                              favoriteTopicSet.add(e);
-                            }
-                          });
+                          viewModel.onEvent(ToggleTopic(e));
                         },
                         leading: Image.asset('imgs/placeholder_1_1.png'),
-                        trailing: favoriteTopicSet.contains(e) == false
+                        trailing: state.favoriteTopicSet.contains(e) == false
                             ? const Icon(
                                 Icons.add_circle_outline,
                                 size: 35,
@@ -129,16 +115,10 @@ class _TopicScreenWidgetState extends State<TopicScreenWidget> {
                     children: [
                       ListTile(
                         onTap: () {
-                          setState(() {
-                            if (favoriteTopicSet.contains(e)) {
-                              favoriteTopicSet.remove(e);
-                            } else {
-                              favoriteTopicSet.add(e);
-                            }
-                          });
+                          viewModel.onEvent(ToggleTopic(e));
                         },
                         leading: Image.asset('imgs/placeholder_1_1.png'),
-                        trailing: favoriteTopicSet.contains(e) == false
+                        trailing: state.favoriteTopicSet.contains(e) == false
                             ? const Icon(
                                 Icons.add_circle_outline,
                                 size: 35,
