@@ -4,7 +4,6 @@ import 'package:jet_news_clone/domain/model/posts_feed.dart';
 import 'package:jet_news_clone/ui/ui.dart';
 
 part 'posts_state.freezed.dart';
-
 part 'posts_state.g.dart';
 
 @freezed
