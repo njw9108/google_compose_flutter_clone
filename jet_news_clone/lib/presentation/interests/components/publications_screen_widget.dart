@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jet_news_clone/domain/model/topic.dart';
-
-final List<Topic> publications = [
-  Topic(title: "Kotlin Vibe", category: "publications"),
-  Topic(title: "Compose Mix", category: "publications"),
-  Topic(title: "Compose Breakdown", category: "publications"),
-  Topic(title: "Android Pursue", category: "publications"),
-  Topic(title: "Kotlin Watchman", category: "publications"),
-  Topic(title: "Jetpack Ark", category: "publications"),
-  Topic(title: "Composeshack", category: "publications"),
-  Topic(title: "Jetpack Point", category: "publications"),
-  Topic(title: "Compose Tribune", category: "publications"),
-];
+import 'package:jet_news_clone/presentation/interests/interest_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PublicationsScreenWidget extends StatefulWidget {
   const PublicationsScreenWidget({
@@ -28,46 +18,52 @@ class _PublicationsScreenWidgetState extends State<PublicationsScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: publications.where((element) => element.category == "publications").map((e) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              ListTile(
-                onTap: () {
-                  setState(() {
-                    if (favoriteTopicSet.contains(e)) {
-                      favoriteTopicSet.remove(e);
-                    } else {
-                      favoriteTopicSet.add(e);
-                    }
-                  });
-                },
-                leading: Image.asset('imgs/placeholder_1_1.png'),
-                trailing: favoriteTopicSet.contains(e) == false
-                    ? const Icon(
-                        Icons.add_circle_outline,
-                        size: 35,
-                      )
-                    : const Icon(
-                        Icons.check_circle_outline,
-                        size: 35,
+    final viewModel = context.watch<InterestViewModel>();
+    final state = viewModel.state;
+    return state.feed == null
+        ? const CircularProgressIndicator()
+        : ListView(
+            children: state.feed!.publicationsTopic
+                .where((element) => element.category == "publications")
+                .map((e) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        setState(() {
+                          if (favoriteTopicSet.contains(e)) {
+                            favoriteTopicSet.remove(e);
+                          } else {
+                            favoriteTopicSet.add(e);
+                          }
+                        });
+                      },
+                      leading: Image.asset('imgs/placeholder_1_1.png'),
+                      trailing: favoriteTopicSet.contains(e) == false
+                          ? const Icon(
+                              Icons.add_circle_outline,
+                              size: 35,
+                            )
+                          : const Icon(
+                              Icons.check_circle_outline,
+                              size: 35,
+                            ),
+                      title: Text(
+                        e.title,
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
-                title: Text(
-                  e.title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                  ),
+                    ),
+                    const Divider(
+                      color: Colors.grey,
+                    )
+                  ],
                 ),
-              ),
-              const Divider(
-                color: Colors.grey,
-              )
-            ],
-          ),
-        );
-      }).toList(),
-    );
+              );
+            }).toList(),
+          );
   }
 }
