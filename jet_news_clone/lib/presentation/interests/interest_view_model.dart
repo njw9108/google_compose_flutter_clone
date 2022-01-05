@@ -34,12 +34,17 @@ class InterestViewModel with ChangeNotifier {
 
   void _toggleTopic(Topic topic) {
     Set<Topic> result = {};
-    result = state.favoriteTopicSet;
+
+    for (var element in state.favoriteTopicSet) {
+      result.add(element);
+    }
 
     if (state.favoriteTopicSet.contains(topic)) {
-      _state = state.copyWith(favoriteTopicSet: result..remove(topic));
+      result.remove(topic);
+      _state = state.copyWith(favoriteTopicSet: result);
     } else {
-      _state = state.copyWith(favoriteTopicSet: result  ..add(topic));
+      result.add(topic);
+      _state = state.copyWith(favoriteTopicSet: result);
     }
   }
 }
