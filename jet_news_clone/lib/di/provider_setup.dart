@@ -18,8 +18,8 @@ Future<List<SingleChildWidget>> getProviders() async {
     version: 1,
     onCreate: (db, version) async {
       await db.execute(
-          //'CREATE TABLE favoritePost (dbID INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, title TEXT, url TEXT, imageId INTEGER, imageThumbId INTEGER)');
-          'CREATE TABLE favoritePost (dbID INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT)');
+          //'CREATE TABLE favoritePost (dbID INTEGER PRIMARY KEY AUTOINCREMENT, postId TEXT)');
+          'CREATE TABLE favoritePost (postId TEXT PRIMARY KEY)');
     },
   );
 

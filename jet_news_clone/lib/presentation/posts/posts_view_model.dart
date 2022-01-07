@@ -12,7 +12,14 @@ class PostViewModel with ChangeNotifier {
   PostViewModel({
     required this.getPostFeed,
     required this.toggleFavorite,
-  });
+  }) {
+    final result = toggleFavorite.getFavoritePost();
+    result.then((favoritePostSet) {
+      _state = state.copyWith(
+        favoritePostSet: favoritePostSet,
+      );
+    });
+  }
 
   PostsState _state = PostsState();
 
@@ -33,9 +40,9 @@ class PostViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void onEvent(PostsEvent event) {
-    event.when(toggleFavoritePost: (post) async {
-      final result = await toggleFavorite.call(post);
+  void onEvent(PostsEvent event) async {
+    await event.when(toggleFavoritePost: (post) async {
+      final result = await toggleFavorite(post);
       result.when(success: (postSet) {
         _state = state.copyWith(
           favoritePostSet: postSet,
