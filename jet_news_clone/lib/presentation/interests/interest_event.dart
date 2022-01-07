@@ -4,6 +4,6 @@ import 'package:jet_news_clone/domain/model/topic.dart';
 part 'interest_event.freezed.dart';
 
 @freezed
-abstract class InterestEvent with _$InterestEvent {
+class InterestEvent with _$InterestEvent {
   const factory InterestEvent.toggleTopic(Topic topic) = ToggleTopic;
 }
