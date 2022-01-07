@@ -15,10 +15,11 @@ class Post with _$Post {
     String? subtitle,
     required String url,
     Publication? publication,
-    required Metadata metadata,
+    Metadata? metadata,
     @Default([]) List<Paragraph> paragraphs,
     required int imageId,
     required int imageThumbId,
+    int? dbID,
   }) = _Post;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

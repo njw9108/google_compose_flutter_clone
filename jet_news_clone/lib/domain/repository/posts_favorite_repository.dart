@@ -1,10 +1,10 @@
-import 'package:jet_news_clone/core/result.dart';
 import 'package:jet_news_clone/domain/model/post.dart';
 
 abstract class PostFavoriteRepository {
-  Future<Result<Set<Post>>> getFavoritePostsSet();
+  //Future<Set<Post>> getFavoritePostsSet();
+  Future<Set<String>> getFavoritePostsSet();
 
-  void remove(Post post);
+  Future<void> remove(Post post);
 
-  void add(Post post);
+  Future<void> add(Post post);
 }

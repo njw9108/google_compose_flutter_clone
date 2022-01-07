@@ -48,8 +48,8 @@ class RecentPostWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                subtitle: Text(recentPost.metadata.author.name +
-                    ' - ${recentPost.metadata.readTimeMinutes} min read'),
+                subtitle: Text(recentPost.metadata!.author.name +
+                    ' - ${recentPost.metadata!.readTimeMinutes} min read'),
               ),
               const Divider(
                 color: Colors.grey,

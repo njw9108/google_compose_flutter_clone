@@ -38,13 +38,13 @@ class HighlightPostWidget extends StatelessWidget {
               ),
             ),
             Text(
-              highlightPost.metadata.author.name,
+              highlightPost.metadata!.author.name,
               style: const TextStyle(fontSize: 18),
             ),
             Text(
-              highlightPost.metadata.date +
+              highlightPost.metadata!.date +
                   ' - ' +
-                  '${highlightPost.metadata.readTimeMinutes} min read',
+                  '${highlightPost.metadata!.readTimeMinutes} min read',
               style: const TextStyle(fontSize: 18),
             ),
           ],

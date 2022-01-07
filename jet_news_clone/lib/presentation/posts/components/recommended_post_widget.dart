@@ -33,7 +33,7 @@ class RecommendedPostWidget extends StatelessWidget {
                 viewModel
                     .onEvent(PostsEvent.toggleFavoritePost(recommendedPost));
               },
-              icon: state.favoritePostSet.contains(recommendedPost)
+              icon: state.favoritePostSet.contains(recommendedPost.id)
                   ? const Icon(
                       Icons.bookmark,
                       size: 28,
@@ -50,9 +50,9 @@ class RecommendedPostWidget extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             subtitle: Text(
-              recommendedPost.metadata.author.name +
+              recommendedPost.metadata!.author.name +
                   '-' +
-                  '${recommendedPost.metadata.readTimeMinutes} min read',
+                  '${recommendedPost.metadata!.readTimeMinutes} min read',
               style: const TextStyle(fontSize: 17),
             ),
           ),

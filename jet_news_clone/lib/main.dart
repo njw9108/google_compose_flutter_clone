@@ -4,9 +4,12 @@ import 'package:provider/provider.dart';
 
 import 'di/provider_setup.dart';
 
-void main() {
+void main() async {
+  // 플랫폼 채널의 위젯 바인딩을 보장
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MultiProvider(
-    providers: viewModels,
+    providers: await getProviders(),
     child: const MyApp(),
   ));
 }

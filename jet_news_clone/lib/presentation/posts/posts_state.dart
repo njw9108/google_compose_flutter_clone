@@ -11,7 +11,7 @@ class PostsState with _$PostsState {
   factory PostsState({
     PostsFeed? feed,
     @Default(DrawerType.home) DrawerType selectedDrawer,
-    @Default({}) Set<Post> favoritePostSet,
+    @Default({}) Set<String> favoritePostSet,
   }) = _PostsState;
 
   factory PostsState.fromJson(Map<String, dynamic> json) =>

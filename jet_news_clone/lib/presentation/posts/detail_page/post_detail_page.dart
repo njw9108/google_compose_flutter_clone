@@ -51,7 +51,7 @@ class PostDetailPage extends StatelessWidget {
                   onPressed: () {
                     viewModel.onEvent(PostsEvent.toggleFavoritePost(post));
                   },
-                  icon: state.favoritePostSet.contains(post)
+                  icon: state.favoritePostSet.contains(post.id)
                       ? const Icon(Icons.bookmark)
                       : const Icon(Icons.bookmark_border),
                 ),
@@ -107,13 +107,13 @@ class PostDetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        post.metadata.author.name,
+                        post.metadata!.author.name,
                         style: const TextStyle(fontSize: 17),
                       ),
                       Text(
-                        post.metadata.date +
+                        post.metadata!.date +
                             ' - ' +
-                            '${post.metadata.readTimeMinutes} min read',
+                            '${post.metadata!.readTimeMinutes} min read',
                         style: const TextStyle(fontSize: 15),
                       ),
                     ],

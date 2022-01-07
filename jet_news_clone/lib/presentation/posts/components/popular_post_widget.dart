@@ -43,13 +43,13 @@ class PopularPostWidget extends StatelessWidget {
                       maxLines: 2,
                     ),
                     Text(
-                      popularPost.metadata.author.name,
+                      popularPost.metadata!.author.name,
                       style: const TextStyle(fontSize: 16),
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      popularPost.metadata.date +
-                          ' - ${popularPost.metadata.readTimeMinutes} min read',
+                      popularPost.metadata!.date +
+                          ' - ${popularPost.metadata!.readTimeMinutes} min read',
                       style: const TextStyle(fontSize: 16),
                       overflow: TextOverflow.ellipsis,
                     ),
