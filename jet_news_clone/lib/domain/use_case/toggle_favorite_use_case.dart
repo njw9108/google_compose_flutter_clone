@@ -8,7 +8,6 @@ class ToggleFavoriteUseCase {
   ToggleFavoriteUseCase(this.repository);
 
   Future<Result<Set<String>>> call(Post post) async {
-    //await _toggleFavoritePost(post);
     Set<String> favoritePostSet = await repository.getFavoritePostsSet();
 
     if (favoritePostSet.contains(post.id)) {
@@ -24,15 +23,5 @@ class ToggleFavoriteUseCase {
   Future<Set<String>> getFavoritePost() async {
     Set<String> favoritePostSet = await repository.getFavoritePostsSet();
     return favoritePostSet;
-  }
-
-  Future<void> _toggleFavoritePost(Post post) async {
-    Set<String> favoritePostSet = await repository.getFavoritePostsSet();
-
-    if (favoritePostSet.contains(post.id)) {
-      await repository.remove(post);
-    } else {
-      await repository.add(post);
-    }
   }
 }

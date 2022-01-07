@@ -1,5 +1,4 @@
 import 'package:jet_news_clone/data/data_source/news_db_data_source.dart';
-import 'package:jet_news_clone/data/repository/in_memory_post_favorite_repository_impl.dart';
 import 'package:jet_news_clone/data/repository/interest_repository_impl.dart';
 import 'package:jet_news_clone/data/repository/local_db_post_favorite_repository_impl.dart';
 import 'package:jet_news_clone/data/repository/post_repository_impl.dart';
@@ -18,14 +17,12 @@ Future<List<SingleChildWidget>> getProviders() async {
     version: 1,
     onCreate: (db, version) async {
       await db.execute(
-          //'CREATE TABLE favoritePost (dbID INTEGER PRIMARY KEY AUTOINCREMENT, postId TEXT)');
           'CREATE TABLE favoritePost (postId TEXT PRIMARY KEY)');
     },
   );
 
   final dataSource = NewsDBDataSource(db);
   final repository = LocalDBPostFavoriteRepositoryImpl(dataSource);
-  //final repository = InMemoryPostFavoriteRepositoryImpl();
 
   List<SingleChildWidget> viewModels = [
     ChangeNotifierProvider<PostViewModel>(

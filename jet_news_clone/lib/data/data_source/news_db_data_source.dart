@@ -8,8 +8,7 @@ class NewsDBDataSource {
 
   Future<Set<String>> getFavoritePostsSet() async {
     List<Map<String, dynamic>> maps = await db.query('favoritePost');
-    return maps.map(( e) => e['postId'] as String).toSet();
-    //return {};
+    return maps.map((e) => e['postId'] as String).toSet();
   }
 
   Future<void> add(Post post) async {
