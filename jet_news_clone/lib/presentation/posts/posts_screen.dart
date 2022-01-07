@@ -17,6 +17,8 @@ class PostsScreen extends StatefulWidget {
 }
 
 class _PostsScreenState extends State<PostsScreen> {
+  final FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
     Future.microtask(() {
@@ -24,6 +26,12 @@ class _PostsScreenState extends State<PostsScreen> {
       viewModel.fetchPosts();
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -98,7 +106,15 @@ class _PostsScreenState extends State<PostsScreen> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _focusNode.hasFocus
+                      ? _focusNode.unfocus()
+                      : FocusScope.of(context).requestFocus(_focusNode);
+                });
+              },
+              icon: const Icon(Icons.search)),
         ],
         title: const Center(
             child: Text(
@@ -106,105 +122,109 @@ class _PostsScreenState extends State<PostsScreen> {
           style: TextStyle(fontSize: 25),
         )),
       ),
-      body: Center(
-        child: state.feed == null
-            ? const CircularProgressIndicator()
-            : ListView(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(
-                        left: 8.0, right: 8.0, bottom: 4.0, top: 20),
-                    child: Text(
-                      'Top stories for you',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
+      body: state.feed == null
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView(
+              children: [
+                Visibility(
+                  visible: _focusNode.hasFocus ? true : false,
+                  child: TextField(
+                    focusNode: _focusNode,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: HighlightPostWidget(
-                      highlightPost: state.feed!.highlightedPost,
-                      onclick: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PostDetailPage(
-                                  post: state.feed!.highlightedPost)),
-                        );
-                      },
-                    ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(
+                      left: 8.0, right: 8.0, bottom: 4.0, top: 20),
+                  child: Text(
+                    'Top stories for you',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: HighlightPostWidget(
+                    highlightPost: state.feed!.highlightedPost,
+                    onclick: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PostDetailPage(
+                                post: state.feed!.highlightedPost)),
+                      );
+                    },
                   ),
-                  ...state.feed!.recommendedPosts
-                      .map((e) => RecommendedPostWidget(
-                            recommendedPost: e,
-                            onclick: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PostDetailPage(post: e)),
-                              );
-                            },
-                          ))
-                      .toList(),
-                  const Padding(
-                    padding: EdgeInsets.only(
-                        left: 8.0, right: 8.0, bottom: 4.0, top: 20),
-                    child: Text(
-                      'Popular on Jetnews',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: SizedBox(
-                      height: 260,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: state.feed!.popularPosts
-                            .map((e) => PopularPostWidget(
-                                  popularPost: e,
-                                  onclick: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              PostDetailPage(post: e)),
-                                    );
-                                  },
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                  const Divider(
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: Divider(
                     color: Colors.grey,
                     thickness: 1,
                   ),
-                  ...state.feed!.recentPosts
-                      .map((e) => RecentPostWidget(
-                            recentPost: e,
-                            onclick: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PostDetailPage(post: e)),
-                              );
-                            },
-                          ))
-                      .toList(),
-                ],
-              ),
-      ),
+                ),
+                ...state.feed!.recommendedPosts
+                    .map((e) => RecommendedPostWidget(
+                          recommendedPost: e,
+                          onclick: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PostDetailPage(post: e)),
+                            );
+                          },
+                        ))
+                    .toList(),
+                const Padding(
+                  padding: EdgeInsets.only(
+                      left: 8.0, right: 8.0, bottom: 4.0, top: 20),
+                  child: Text(
+                    'Popular on Jetnews',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SizedBox(
+                    height: 260,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: state.feed!.popularPosts
+                          .map((e) => PopularPostWidget(
+                                popularPost: e,
+                                onclick: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PostDetailPage(post: e)),
+                                  );
+                                },
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                ),
+                const Divider(
+                  color: Colors.grey,
+                  thickness: 1,
+                ),
+                ...state.feed!.recentPosts
+                    .map((e) => RecentPostWidget(
+                          recentPost: e,
+                          onclick: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PostDetailPage(post: e)),
+                            );
+                          },
+                        ))
+                    .toList(),
+              ],
+            ),
     );
   }
 }
