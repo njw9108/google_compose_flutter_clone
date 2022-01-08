@@ -4,6 +4,7 @@ import 'package:jet_news_clone/presentation/posts/components/highlight_post_widg
 import 'package:jet_news_clone/presentation/posts/components/popular_post_widget.dart';
 import 'package:jet_news_clone/presentation/posts/components/recent_post_widget.dart';
 import 'package:jet_news_clone/presentation/posts/components/recommended_post_widget.dart';
+import 'package:jet_news_clone/presentation/posts/components/search_bar.dart';
 import 'package:jet_news_clone/presentation/posts/detail_page/post_detail_page.dart';
 import 'package:jet_news_clone/presentation/posts/posts_view_model.dart';
 import 'package:jet_news_clone/ui/ui.dart';
@@ -18,6 +19,7 @@ class PostsScreen extends StatefulWidget {
 
 class _PostsScreenState extends State<PostsScreen> {
   final FocusNode _focusNode = FocusNode();
+  final _controller = TextEditingController();
 
   @override
   void initState() {
@@ -31,6 +33,7 @@ class _PostsScreenState extends State<PostsScreen> {
   @override
   void dispose() {
     _focusNode.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -130,8 +133,9 @@ class _PostsScreenState extends State<PostsScreen> {
               children: [
                 Visibility(
                   visible: _focusNode.hasFocus ? true : false,
-                  child: TextField(
+                  child: SearchBar(
                     focusNode: _focusNode,
+                    controller: _controller,
                   ),
                 ),
                 const Padding(

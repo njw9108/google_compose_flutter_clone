@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jet_news_clone/domain/model/post.dart';
 import 'package:jet_news_clone/domain/use_case/get_post_feed_use_case.dart';
 import 'package:jet_news_clone/domain/use_case/toggle_favorite_use_case.dart';
 import 'package:jet_news_clone/presentation/posts/posts_event.dart';
@@ -32,6 +33,46 @@ class PostViewModel with ChangeNotifier {
     }, error: (message) {
       print(message);
     });
+    notifyListeners();
+  }
+
+  Future<void> searchPost(String keyword) async {
+    _state = state.copyWith(isLoading: true);
+    notifyListeners();
+
+    Set<Post> allPosts = {};
+    allPosts.addAll(state.feed!.recentPosts);
+    allPosts.addAll(state.feed!.popularPosts);
+    allPosts.addAll(state.feed!.recommendedPosts);
+    allPosts.add(state.feed!.highlightedPost);
+
+    Set<Post> posts = {};
+    bool isSame;
+    for (var source in allPosts) {
+      if (posts.isEmpty) {
+        posts.add(source);
+        continue;
+      }
+      isSame = false;
+      for (var target in posts) {
+        if (target.title == source.title) {
+          isSame = true;
+        }
+      }
+      if (isSame == false) {
+        posts.add(source);
+      }
+    }
+
+    Set<Post> result = posts.where((post) {
+      return post.title.contains(RegExp(keyword, caseSensitive: false));
+    }).toSet();
+
+    _state = state.copyWith(
+      searchResults: result,
+    );
+
+    _state = state.copyWith(isLoading: false);
     notifyListeners();
   }
 
