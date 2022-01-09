@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jet_chat_clone/domain/model/message.dart';
 import 'package:jet_chat_clone/ui/color.dart' as color;
 
@@ -49,7 +50,7 @@ class MessageItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        message.timestamp,
+                        DateFormat('HH : mm').format(DateTime.fromMillisecondsSinceEpoch(message.timestamp)),
                         style: const TextStyle(
                           fontSize: 17,
                         ),
