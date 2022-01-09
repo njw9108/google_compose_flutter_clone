@@ -19,6 +19,7 @@ class PostsScreen extends StatefulWidget {
 
 class _PostsScreenState extends State<PostsScreen> {
   final FocusNode _focusNode = FocusNode();
+  final FocusNode _showFocusNode = FocusNode();
   final _controller = TextEditingController();
 
   @override
@@ -33,8 +34,17 @@ class _PostsScreenState extends State<PostsScreen> {
   @override
   void dispose() {
     _focusNode.dispose();
+    _showFocusNode.dispose();
     _controller.dispose();
     super.dispose();
+  }
+
+  bool isGotFocus(bool hasFocus) {
+    if (hasFocus) {
+      _controller.text = '';
+      _focusNode.requestFocus();
+    }
+    return hasFocus;
   }
 
   @override
@@ -112,9 +122,12 @@ class _PostsScreenState extends State<PostsScreen> {
           IconButton(
               onPressed: () {
                 setState(() {
-                  _focusNode.hasFocus
-                      ? _focusNode.unfocus()
-                      : FocusScope.of(context).requestFocus(_focusNode);
+                  if (_showFocusNode.hasFocus || _focusNode.hasFocus) {
+                    _showFocusNode.unfocus();
+                    _focusNode.unfocus();
+                  } else {
+                    FocusScope.of(context).requestFocus(_showFocusNode);
+                  }
                 });
               },
               icon: const Icon(Icons.search)),
@@ -132,7 +145,7 @@ class _PostsScreenState extends State<PostsScreen> {
           : ListView(
               children: [
                 Visibility(
-                  visible: _focusNode.hasFocus ? true : false,
+                  visible: isGotFocus(_showFocusNode.hasFocus),
                   child: SearchBar(
                     focusNode: _focusNode,
                     controller: _controller,

@@ -4,6 +4,7 @@ import 'package:jet_news_clone/data/repository/local_db_post_favorite_repository
 import 'package:jet_news_clone/data/repository/post_repository_impl.dart';
 import 'package:jet_news_clone/domain/use_case/get_interest_feed_use_case.dart';
 import 'package:jet_news_clone/domain/use_case/get_post_feed_use_case.dart';
+import 'package:jet_news_clone/domain/use_case/search_post_use_case.dart';
 import 'package:jet_news_clone/domain/use_case/toggle_favorite_use_case.dart';
 import 'package:jet_news_clone/presentation/interests/interest_view_model.dart';
 import 'package:jet_news_clone/presentation/posts/posts_view_model.dart';
@@ -16,8 +17,7 @@ Future<List<SingleChildWidget>> getProviders() async {
     'favoritePost.db',
     version: 1,
     onCreate: (db, version) async {
-      await db.execute(
-          'CREATE TABLE favoritePost (postId TEXT PRIMARY KEY)');
+      await db.execute('CREATE TABLE favoritePost (postId TEXT PRIMARY KEY)');
     },
   );
 
@@ -33,6 +33,7 @@ Future<List<SingleChildWidget>> getProviders() async {
         toggleFavorite: ToggleFavoriteUseCase(
           repository,
         ),
+        searchPostUseCase: SearchPostUseCase(),
       ),
     ),
     ChangeNotifierProvider<InterestViewModel>(

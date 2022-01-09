@@ -21,6 +21,7 @@ class SearchBar extends StatelessWidget {
             child: TextField(
               controller: controller,
               focusNode: focusNode,
+              autofocus: true,
               decoration: const InputDecoration(hintText: 'search title...'),
             ),
           ),
