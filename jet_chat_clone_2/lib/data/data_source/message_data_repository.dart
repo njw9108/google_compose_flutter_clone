@@ -22,7 +22,6 @@ class MessageDataSource {
 
   Future<void> sendMessage(Message message) async {
     await _messages.add(message);
-    //messages.add(message);
   }
 
   Future<Message> receiveMessage() async {
