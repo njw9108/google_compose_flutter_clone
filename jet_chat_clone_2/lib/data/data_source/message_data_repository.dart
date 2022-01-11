@@ -39,14 +39,14 @@ List<UserProfile> profiles = [
       displayName: 'ali',
       userImageUrl: 'imgs/ali.png',
       position: 'Senior Android Dev at Yearin\nGoogle Developer Expert',
-      timeZone: 'In your timezone',
-      twitter: 'twitter.com/aliconors'),
+      twitter: 'In your timezone',
+      timeZone: 'twitter.com/aliconors'),
   UserProfile(
       userId: 'Taylor@gamil.com',
       name: 'Taylor Brooks',
       displayName: 'taylor',
       userImageUrl: 'imgs/someone_else.png',
       position: 'Senior Android Dev at Openlane',
-      timeZone: 'twitter.com/taylorbrookscodes',
-      twitter: '12:25 AM local time (Eastern Daylight Time)'),
+      twitter: 'twitter.com/taylorbrookscodes',
+      timeZone: '12:25 AM local time (Eastern Daylight Time)'),
 ];
