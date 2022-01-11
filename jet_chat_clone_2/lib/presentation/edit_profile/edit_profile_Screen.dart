@@ -12,16 +12,6 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        backgroundColor: Colors.yellow,
-        foregroundColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        label: const Text('Edit Profile'),
-        icon: const Icon(Icons.edit),
-      ),
       body: SafeArea(
         child: ListView(
           children: [
