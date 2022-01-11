@@ -48,4 +48,4 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 
-google-services.json
+/android/app/google-services.json
