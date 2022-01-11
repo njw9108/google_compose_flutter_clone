@@ -258,23 +258,6 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               onTap: () {},
             ),
-            ListTile(
-              title: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.transparent,
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'droidcon-nyc',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                ),
-              ),
-              onTap: () {},
-            ),
             const Divider(
               thickness: 1,
               color: Colors.grey,
