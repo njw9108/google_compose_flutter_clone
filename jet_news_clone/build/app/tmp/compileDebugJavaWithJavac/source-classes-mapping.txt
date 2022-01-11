@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/njw9108/jet_news_clone/jet_news_clone/BuildConfig.java
+ com.njw9108.jet_news_clone.jet_news_clone.BuildConfig
