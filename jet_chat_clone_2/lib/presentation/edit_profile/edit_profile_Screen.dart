@@ -12,9 +12,15 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
-        child: const Text('Edit Profile'),
+        backgroundColor: Colors.yellow,
+        foregroundColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        label: const Text('Edit Profile'),
+        icon: const Icon(Icons.edit),
       ),
       body: SafeArea(
         child: ListView(
@@ -59,6 +65,86 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 3,
+              ),
+              child: Text(
+                'Display Name',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 3,
+              ),
+              child: Text(
+                userProfile.displayName,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 3,
+              ),
+              child: Text(
+                'twitter',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 3,
+              ),
+              child: Text(
+                userProfile.twitter,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 3,
+              ),
+              child: Text(
+                'time zone',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 3,
+              ),
+              child: Text(
+                userProfile.timeZone,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 50,
+              ),
+            )
           ],
         ),
       ),
