@@ -1,6 +1,6 @@
 # google_compose_flutter_clone
 
-**개발 목적 **
+**개발 목적**
 
 google에서 제공하는 Android Compose UI Sample을 Flutter 코드로 Clone 하는 프로젝트
 (google Compose UI Sample : https://github.com/android/compose-samples)
