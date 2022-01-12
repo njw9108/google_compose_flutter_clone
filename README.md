@@ -6,11 +6,11 @@ google에서 제공하는 Android Compose UI Sample을 Flutter 코드로 Clone �
 (google Compose UI Sample : https://github.com/android/compose-samples)
 
 
-**Jet Chat**
+<img src="![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-13-34-17](https://user-images.githubusercontent.com/89832278/149062595-cfc4721c-7af1-49f4-870e-c179e09106de.gif)" alt="Jet Chat" width="340" />
 
-![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-13-34-17](https://user-images.githubusercontent.com/89832278/149062595-cfc4721c-7af1-49f4-870e-c179e09106de.gif)
+<img src="![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-15-21-25](https://user-images.githubusercontent.com/89832278/149062646-bc14310e-976a-4071-9b9b-8e530acb509a.gif)"  width="340" />
 
-![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-15-21-25](https://user-images.githubusercontent.com/89832278/149062646-bc14310e-976a-4071-9b9b-8e530acb509a.gif)
+
 
 
 **Jet News**
