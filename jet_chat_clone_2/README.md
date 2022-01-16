@@ -1,16 +1,11 @@
 # jet_chat_clone_2
 
-A new Flutter project.
 
-## Getting Started
+### 메인 채팅 화면 ###
+![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-13-34-17](https://user-images.githubusercontent.com/89832278/149649632-5784d5be-5688-4691-afc5-fc2f0a2bd703.gif)
 
-This project is a starting point for a Flutter application.
+### User Profile 화면 ###
+![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-15-21-25](https://user-images.githubusercontent.com/89832278/149649644-518bdafc-b29f-4c7d-a29b-7a19705059e6.gif)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Message Send ###
+![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-14-57-16](https://user-images.githubusercontent.com/89832278/149649663-f0df6d4b-91ad-4ac2-8a20-45dad227ffa0.gif)

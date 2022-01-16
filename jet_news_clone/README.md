@@ -1,16 +1,16 @@
 # jet_news_clone
 
-jet_news_clone
+### 메인 화면 ###
+![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-15-55-38](https://user-images.githubusercontent.com/89832278/149649697-3a6a8344-391e-404b-85a7-cb157724d43f.gif)
 
-## Getting Started
+### 포스트 내용 화면 ###
+![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-15-59-09](https://user-images.githubusercontent.com/89832278/149649710-266c8a0e-8683-42aa-83c2-bae3dbbde4c4.gif)
 
-This project is a starting point for a Flutter application.
+### Interest 화면 ###
+![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-16-04-01](https://user-images.githubusercontent.com/89832278/149649730-cd6432e0-ccc2-4f38-9bfb-e2b27d0e56e1.gif)
 
-A few resources to get you started if this is your first Flutter project:
+### Bookmark ###
+![Android-Emulator-Pixel_5_API_30_5554-2022-01-11-16-22-41](https://user-images.githubusercontent.com/89832278/149649744-16725ea3-efc2-4ed6-8e49-98a0847ae515.gif)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Post 검색 ###
+![Android Emulator - Pixel_5_API_30_5554 2022-01-11 16-59-07](https://user-images.githubusercontent.com/89832278/149649754-c02dbb73-f657-45b5-a45a-08ec27278982.gif)
