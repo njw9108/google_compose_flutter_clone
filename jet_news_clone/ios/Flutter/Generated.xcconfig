@@ -1,8 +1,8 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=D:\flutter
-FLUTTER_APPLICATION_PATH=D:\flutter_project\google_compose_flutter_clone\jet_news_clone
+FLUTTER_ROOT=/Users/njw9108/Sources/flutter
+FLUTTER_APPLICATION_PATH=/Users/njw9108/Sources/flutter_project/google_compose_sample/jet_news_clone
 COCOAPODS_PARALLEL_CODE_SIGN=true
-FLUTTER_TARGET=lib\main.dart
+FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1

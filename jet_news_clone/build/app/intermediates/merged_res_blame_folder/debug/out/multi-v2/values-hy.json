@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\flutter_project\\google_compose_flutter_clone\\jet_news_clone\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hy\\values-hy.xml",
+            "outputFile": "/Users/njw9108/Sources/flutter_project/google_compose_sample/jet_news_clone/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-hy/values-hy.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\njw91\\.gradle\\caches\\transforms-3\\0d07b4e5b6188e50041239f12aa302fd\\transformed\\core-1.6.0\\res\\values-hy\\values-hy.xml",
+                    "source": "/Users/njw9108/.gradle/caches/transforms-3/d118b71b31ac2018b0687bad4db3eb97/transformed/core-1.6.0/res/values-hy/values-hy.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

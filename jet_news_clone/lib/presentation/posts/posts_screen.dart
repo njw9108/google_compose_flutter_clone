@@ -60,7 +60,7 @@ class _PostsScreenState extends State<PostsScreen> {
               const ListTile(
                 leading: Icon(Icons.beach_access_rounded),
                 title: Text(
-                  'Jet News',
+                  'And News',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
