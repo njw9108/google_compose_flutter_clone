@@ -232,7 +232,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 //padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(),
                 child: Text(
-                  'Jet Chat',
+                  'Simple Chat',
                   style: TextStyle(fontSize: 25),
                 ),
               ),
