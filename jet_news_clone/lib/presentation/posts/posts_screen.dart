@@ -134,7 +134,7 @@ class _PostsScreenState extends State<PostsScreen> {
         ],
         title: const Center(
             child: Text(
-          'Jet News',
+          'And News',
           style: TextStyle(fontSize: 25),
         )),
       ),
